@@ -1,0 +1,110 @@
+.logo_pagina {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  height: 50vh;
+  padding: 1px;
+  margin-top: auto;
+}
+
+.formulario_entrar {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.input-container {
+  position: relative;
+  width: 550px;
+}
+
+input {
+  background-color: rgba(0, 74, 173, 1);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 20px;
+  width: 100%;
+  height: 50px;
+  padding: 10px 45px 10px 10px; /* espaço à direita pro ícone */
+  text-align: center;
+  box-sizing: border-box;
+  outline: none;
+}
+
+input::placeholder {
+  color: white;
+  text-align: center;
+}
+
+.input-container i {
+  position: absolute;
+  right: 15px; /* ícone dentro do campo */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ffffff;
+  font-size: 20px;
+}
+
+
+a{
+  align-items: center;
+  text-align: center;
+  padding-left: 2%;
+  color: rgba(0, 74, 173, 1);
+  text-decoration: none;
+}
+
+
+button{
+  background-color: rgba(0, 74, 173, 1);
+  color: white;
+  width: 100%;
+  height: 50px;
+  border: none;
+  font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  border-radius: 15px;
+  cursor: pointer;
+
+  display: flex;               
+  justify-content: center;     
+  align-items: center;         
+  gap: 20px;                   
+}
+
+.a_2{
+  text-align: center;
+}
+
+p{
+  text-align: justify;
+  color: rgba(0, 74, 173, 1);
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 15px;
+  
+}
+
+
+footer{
+  
+  background-color: rgba(0, 74, 173, 1);
+  width: 100%;
+  height: 50px;
+
+}
+
+.a_3{
+  text-decoration: none;
+  text-align: center;
+  color: white;
+}
+
+.botao_entrar{
+  color:white;
+  text-align: center;
+  text-decoration: none;
+}
