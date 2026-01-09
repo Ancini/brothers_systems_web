@@ -1,5 +1,5 @@
 .logo_pagina {
-  width: 100%;
+  width: 80%;
   display: flex;
   justify-content: center;
   align-items: center; 
@@ -27,7 +27,7 @@ input {
   border-radius: 15px;
   font-family: 'Times New Roman', Times, serif;
   font-size: 20px;
-  width: 100%;
+  width: 80%;
   height: 50px;
   padding: 10px 45px 10px 10px; /* espaço à direita pro ícone */
   text-align: center;
