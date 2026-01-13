@@ -1,18 +1,30 @@
-/* BASE */
+/* RESET BÁSICO */
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* FUNDO */
 body{
-  margin:0;
   min-height:100vh;
   display:flex;
   justify-content:center;
   background:#fff;
 }
 
-/* CAIXA PRINCIPAL */
-.login-box{
+/* CONTAINER QUE CENTRALIZA */
+.container-login{
   width:100%;
-  max-width:460px;   /* 🔥 controla a largura em PC */
+  display:flex;
+  justify-content:center;
   padding:20px;
-  box-sizing:border-box;
+}
+
+/* CAIXA DO FORM (tamanho de app) */
+.form-wrapper{
+  width:100%;
+  max-width:460px;   /* 🔥 largura ideal para desktop */
 }
 
 /* LOGO */
@@ -20,7 +32,6 @@ body{
   width:100%;
   display:flex;
   justify-content:center;
-  align-items:center;
   margin-bottom:20px;
 }
 
@@ -32,30 +43,27 @@ body{
 /* FORM */
 .formulario_entrar{
   display:flex;
-  justify-content:center;
   flex-direction:column;
   align-items:center;
+  gap:15px;
 }
 
 /* INPUT */
 .input-container{
   position:relative;
-  width:100%;       /* 🔥 removido 550px */
-  margin-bottom:15px;
+  width:100%;
 }
 
 input{
+  width:100%;
+  height:56px;
   background-color:rgba(0,74,173,1);
   color:white;
   border:none;
   border-radius:15px;
-  font-family:'Times New Roman', Times, serif;
   font-size:18px;
-  width:100%;
-  height:56px;
   padding:10px 45px 10px 10px;
   text-align:center;
-  box-sizing:border-box;
   outline:none;
 }
 
@@ -73,16 +81,15 @@ input::placeholder{
   font-size:18px;
 }
 
-/* BOTÕES */
+/* BOTÃO */
 button{
-  background-color:rgba(0,74,173,1);
-  color:white;
   width:100%;
   height:56px;
+  background-color:rgba(0,74,173,1);
+  color:white;
   border:none;
-  font-size:18px;
-  font-family:'Times New Roman', Times, serif;
   border-radius:15px;
+  font-size:18px;
   cursor:pointer;
   display:flex;
   justify-content:center;
@@ -92,28 +99,22 @@ button{
 
 /* LINK COM CARA DE BOTÃO */
 .btn-link{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
   width:100%;
   height:56px;
   background-color:rgba(0,74,173,1);
   color:white;
   border-radius:15px;
   font-size:18px;
-  margin-top:10px;
+  text-decoration:none;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
 }
 
-/* FOOTER */
-footer{
-  background-color:rgba(0,74,173,1);
+
+.botao_enviar,
+.botao_voltar{
   width:100%;
-  height:50px;
-margin:auto;
-}
-
-a{
-  text-decoration: none;
-  
+  gap:10px
 }

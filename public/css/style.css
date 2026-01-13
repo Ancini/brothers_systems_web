@@ -1,17 +1,22 @@
-/* Estrutura geral */
 body{
   margin:0;
   min-height:100vh;
-  display:flex;
-  justify-content:center;
   background:white;
 }
 
-/* Caixa principal estilo app */
-.login-box{
+/* Centraliza tudo */
+.container-login{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* Controla largura */
+.form-wrapper{
   width:100%;
-  max-width:800px;
-  padding:20px;
+  max-width:700px;
+  padding:0 16px;
   box-sizing:border-box;
 }
 
