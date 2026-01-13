@@ -25,7 +25,7 @@
 /* CONTAINER DOS INPUTS */
 .input-container {
   width: 100%;
-  max-width: 420px;   /* limite bonito no PC */
+  max-width: 620px;   /* limite bonito no PC */
   padding: 0 15px;   /* respiro no celular */
   margin-bottom: 15px;
   position: relative;
@@ -65,7 +65,7 @@ input::placeholder {
 /* BOTÃO */
 .botao_cadastrar {
   width: 100%;
-  max-width: 420px;
+  max-width: 520px;
   padding: 0 15px;
   margin-bottom: 15px;
 }
