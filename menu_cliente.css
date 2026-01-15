@@ -1,0 +1,295 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    max-width: 100%;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #ffffff;
+    padding: 0;
+}
+
+/* Header */
+.header {
+    display: flex;
+    padding: 15px;
+    gap: 10px;
+    background-color: #ffffff;
+}
+
+.cliente-card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 15px;
+    padding: 12px 15px;
+    gap: 12px;
+}
+
+.cliente-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000000;
+}
+
+.cliente-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cliente-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cliente-info .label {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cliente-info .nome {
+    font-size: 15px;
+    font-weight: 600;
+    color: #000;
+}
+
+.pontuacao-card {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #c9a935 0%, #e8d67a 100%);
+    border: 2px solid #000000;
+    border-radius: 15px;
+    padding: 12px 18px;
+    gap: 12px;
+    min-width: 145px;
+}
+
+.pontuacao-icone {
+    width: 40px;
+    height: 40px;
+}
+
+.pontuacao-icone img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.pontuacao-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pontuacao-info .label {
+    font-size: 11px;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.pontuacao-info .valor {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* Ranking */
+.ranking-card {
+    margin: 0 15px 15px 15px;
+    background-color: #000000;
+    border-radius: 15px;
+    padding: 15px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ranking-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ranking-icon {
+    width: 28px;
+    height: 28px;
+    filter: brightness(0) invert(1);
+}
+
+.ranking-titulo {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.ranking-link {
+    font-size: 13px;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.ranking-link:hover {
+    text-decoration: underline;
+}
+
+/* Busca */
+.busca-card {
+    margin: 0 15px 20px 15px;
+    background-color: #1a1a1a;
+    border-radius: 15px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.busca-card:hover {
+    background-color: #252525;
+}
+
+.busca-icon {
+    width: 22px;
+    height: 22px;
+    filter: brightness(0) invert(1);
+}
+
+.busca-texto {
+    font-size: 15px;
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Estabelecimentos Section */
+.estabelecimentos-section {
+    margin: 0 15px 25px 15px;
+}
+
+.section-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+.section-badge.abertos {
+    background-color: #27ae60;
+    color: #fff;
+}
+
+.section-badge.fechados {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.estabelecimentos-grid {
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 15px;
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.estabelecimento-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 8px;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.estabelecimento-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.estabelecimento-logo {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #000000;
+}
+
+.estabelecimento-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.estabelecimento-nome {
+    font-size: 12px;
+    text-align: center;
+    color: #000;
+    line-height: 1.3;
+    font-weight: 500;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .header {
+        flex-direction: column;
+    }
+    
+    .pontuacao-card {
+        width: 100%;
+    }
+    
+    .estabelecimentos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .estabelecimentos-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
