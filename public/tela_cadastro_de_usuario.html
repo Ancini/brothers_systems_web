@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Brothers Systems</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -14,34 +15,35 @@
 
 <div class="login-box">
 
-    <!-- LOGO -->
     <div class="logo_pagina">
         <img src="css/imagens/logo.png" alt="logo">
     </div>
+
     <br>
 
-    <!-- FORM -->
     <div class="formulario_entrar">
         <div class="form-wrapper">
-        <form method="post">
+
+        <!-- CHAMA FUNÇÃO JS -->
+        <form onsubmit="cadastrarUsuario(event)">
 
             <div class="input-container">
-                <input type="email" placeholder="Digite seu e-mail">
+                <input id="email" type="email" placeholder="Digite seu e-mail">
                 <i class="fa-regular fa-envelope"></i>
             </div>
 
             <div class="input-container">
-                <input type="tel" placeholder="Digite seu telefone">
+                <input id="telefone" type="tel" placeholder="Digite seu telefone">
                 <i class="fa-solid fa-phone"></i>
             </div>
 
             <div class="input-container">
-                <input type="password" placeholder="Digite sua senha">
+                <input id="senha" type="password" placeholder="Digite sua senha">
                 <i class="fa-solid fa-key"></i>
             </div>
 
             <div class="input-container">
-                <input type="password" placeholder="Confirme sua senha">
+                <input id="confirmarSenha" type="password" placeholder="Confirme sua senha">
                 <i class="fa-solid fa-key"></i>
             </div>
 
@@ -52,20 +54,28 @@
                 </button>
             </div>
 
-           <div class="botao_cadastrar">
-  <a href="index.html" class="botao_link">
-    Voltar ao menu principal
-    <i class="fa-solid fa-right-to-bracket" style="color:white;"></i>
-  </a>
-</div>
-
+            <div class="botao_cadastrar">
+                <a href="index.html" class="botao_link">
+                    Voltar ao menu principal
+                    <i class="fa-solid fa-right-to-bracket" style="color:white;"></i>
+                </a>
+            </div>
 
         </form>
+
+
+        </div>
     </div>
-    </div>
+
 </div>
 
 <footer></footer>
+
+<!-- SDK do Back4App -->
+<script src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+
+<!-- SEU JS -->
+<script src="js/cadastro.js"></script>
 
 </body>
 </html>
