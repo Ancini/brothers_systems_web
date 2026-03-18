@@ -2,7 +2,6 @@ Parse.initialize("RFqDC4TzWQhojTYJImCifE2Ig1aAxOYl3XmAYhEE");
 Parse.serverURL = "https://parseapi.back4app.com";
 
 async function cadastrarUsuario(event){
-
     event.preventDefault();
 
     const nome = document.getElementById("nome").value;
