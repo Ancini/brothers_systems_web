@@ -10,7 +10,7 @@ async function cadastrarUsuario(event){
     const senha = document.getElementById("senha").value;
     const confirmarsenha = document.getElementById("confirmarsenha").value;
 
-    if (senha !== confirmarSenha) {
+    if (senha !== confirmarsenha) {
         alert("Senhas diferentes");
         return;
     }
