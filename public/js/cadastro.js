@@ -5,30 +5,34 @@ async function cadastrarUsuario(event){
 
     event.preventDefault();
 
+    const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
     const telefone = document.getElementById("telefone").value;
     const senha = document.getElementById("senha").value;
     const confirmarSenha = document.getElementById("confirmarSenha").value;
 
-    if(senha !== confirmarSenha){
+    if (senha !== confirmarSenha) {
         alert("Senhas diferentes");
         return;
     }
 
-    try{
+    try {
 
-        await Parse.Cloud.run("cadastrarUsuario", {
-            email,
-            telefone,
-            senha
+        const resposta = await Parse.Cloud.run("cadastrarUsuario", {
+            nome: nome,
+            email: email,
+            telefone: telefone,
+            senha: senha
         });
 
-        alert("Cadastrado!");
+        alert("Usuário cadastrado com sucesso");
 
-    }catch(e){
+        console.log(resposta);
 
-        console.error(e);
-        alert("Erro");
+    } catch (erro) {
+
+        console.error(erro);
+        alert("Erro ao cadastrar");
 
     }
 
