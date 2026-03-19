@@ -1,5 +1,4 @@
-Parse.initialize(
-    "RFqDC4TzWQhojTYJImCifE2Ig1aAxOYl3XmAYhEE",
+Parse.initialize("RFqDC4TzWQhojTYJImCifE2Ig1aAxOYl3XmAYhEE",
     "a3tRJSImhKFjFbmv4xMba3FWAqnlcrAN0jKKieDK"
 );
 Parse.serverURL = "https://parseapi.back4app.com";
