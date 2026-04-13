@@ -5,6 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brothers Systems - Agendamento</title>
     <link rel="stylesheet" href="css/menu_cliente.css">
+    <style>
+        /* Estilo adicional para o botão de sair do rodapé */
+        .footer-sair {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .logout-btn-footer {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn-footer:hover {
+            background: #c82333;
+        }
+        
+        .logout-btn-header {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: auto;
+        }
+        
+        .logout-btn-header:hover {
+            background: #c82333;
+        }
+        
+        .copyright {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -16,7 +62,7 @@
                 </div>
                 <div class="cliente-info">
                     <span class="label">Cliente</span>
-                    <span class="nome">Alexandre Donner</span>
+                    <span class="nome">Carregando...</span>
                 </div>
             </div>
             
@@ -120,6 +166,65 @@
                 </div>
             </div>
         </section>
+        
+        <!-- Rodapé com botão Sair -->
+        <div class="footer-sair">
+            <button class="logout-btn-footer" id="btnSairFooter">🚪 Sair da Conta</button>
+            <div class="copyright">© 2026 Brothers Systems - Todos os direitos reservados</div>
+        </div>
     </div>
+
+    <script>
+        // Funções de sessão (cópia local para não precisar de import)
+        function pegarSessao() {
+            return JSON.parse(localStorage.getItem("usuarioLogado"));
+        }
+
+        function logout() {
+            localStorage.removeItem("usuarioLogado");
+            console.log("Usuário deslogado, sessão removida");
+        }
+
+        // Verificar se está logado
+        const user = pegarSessao();
+
+        if (!user) {
+            alert("Você não está logado! Redirecionando para o login...");
+            window.location.href = "index.html";
+        }
+
+        // Atualizar o nome do cliente no header
+        const nomeClienteSpan = document.querySelector('.cliente-info .nome');
+        if (nomeClienteSpan && user) {
+            const nome = user.user_metadata?.name || user.email?.split('@')[0] || "Cliente";
+            nomeClienteSpan.textContent = nome;
+        }
+
+        // Adicionar botão de logout no header (canto superior direito)
+        const header = document.querySelector('.header');
+        if (header && !document.querySelector('.logout-btn-header')) {
+            const logoutBtnHeader = document.createElement('button');
+            logoutBtnHeader.textContent = 'Sair';
+            logoutBtnHeader.className = 'logout-btn-header';
+            logoutBtnHeader.onclick = () => {
+                if (confirm("Tem certeza que deseja sair da sua conta?")) {
+                    logout();
+                    window.location.href = "index.html";
+                }
+            };
+            header.appendChild(logoutBtnHeader);
+        }
+
+        // Botão de sair no rodapé
+        const btnSairFooter = document.getElementById('btnSairFooter');
+        if (btnSairFooter) {
+            btnSairFooter.onclick = () => {
+                if (confirm("Tem certeza que deseja sair da sua conta?")) {
+                    logout();
+                    window.location.href = "index.html";
+                }
+            };
+        }
+    </script>
 </body>
 </html>
