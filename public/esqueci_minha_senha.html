@@ -20,35 +20,34 @@
             <img src="css/imagens/logo.png" alt="logo">
         </div>
 
-        <!-- FORM -->
-        <div class="formulario_entrar">
-            <div class="form-wrapper">
-            <form method="post">
-                <div class="input-container">
-                    <input type="email" placeholder="Digite seu e-mail">
-                    <i class="fa-regular fa-envelope"></i>
-                </div>
-                
-                <div class="botao_enviar">
-                    <button type="submit">
-                        Enviar e-mail
-                        <i class="fa-regular fa-paper-plane"></i>
-                    </button>
-                </div>
-                
-                <button>
-                <div class="button">
-                    <a href="index.html" class="btn-link">
-                        Retornar ao menu principal
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                        <js>
-                    </a>
-                </div>
-                </button>
+      <div class="formulario_entrar">
+    <div class="form-wrapper">
 
-            </form>
-        </div>
-        </div>
+        <form onsubmit="recuperarSenha(event)">
+
+            <div class="input-container">
+                <input id="email" type="email" placeholder="Digite seu e-mail" required>
+                <i class="fa-regular fa-envelope"></i>
+            </div>
+
+            <div class="botao_enviar">
+                <button type="submit">
+                    Enviar e-mail
+                    <i class="fa-regular fa-paper-plane"></i>
+                </button>
+            </div>
+
+            <div class="botao_enviar">
+                <a href="index.html" class="btn-link" role="button">
+                    Retornar ao menu principal
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
 
     </div>
 
@@ -57,4 +56,6 @@
 
 </footer>
  
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="js/recuperar-senha.js"></script>
 </html>
