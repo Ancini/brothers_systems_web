@@ -21,7 +21,9 @@ async function redefinirSenha(event) {
 
     try {
 
-        // 🔥 verifica se o usuário veio pelo link (tem sessão)
+        // 🔥 ESSENCIAL: carregar sessão do link
+        await supabaseClient.auth.refreshSession();
+
         const { data: sessionData } = await supabaseClient.auth.getSession();
 
         if (!sessionData.session) {
@@ -38,7 +40,6 @@ async function redefinirSenha(event) {
 
         alert("Senha alterada com sucesso!");
 
-        // opcional: redirecionar
         window.location.href = "index.html";
 
     } catch (erro) {
