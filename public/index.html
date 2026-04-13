@@ -8,12 +8,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/x-icon" href="css/imagens/2.ico">
+
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
 <div class="container-login">
-
   <div class="form-wrapper">
 
     <!-- LOGO -->
@@ -22,20 +24,20 @@
     </div>
 
     <!-- FORM -->
-    <form method="post" class="formulario_entrar">
+    <form id="formLogin" class="formulario_entrar">
 
       <div class="input-container">
-        <input type="text" placeholder="Digite seu e-mail">
+        <input id="email" type="email" placeholder="Digite seu e-mail" required>
         <i class="fa-regular fa-envelope"></i>
       </div>
 
       <div class="input-container">
-        <input type="password" placeholder="Digite sua senha">
+        <input id="password" type="password" placeholder="Digite sua senha" required>
         <i class="fa fa-key"></i>
       </div>
 
       <div class="botao_entrar">
-        <button type="button" onclick="location.href='agendamento_selecionar_barbearia.html'">
+        <button type="submit">
           Entrar <i class="fa-solid fa-right-to-bracket"></i>
         </button>
       </div>
@@ -51,10 +53,71 @@
     </form>
 
   </div>
-
 </div>
 
 <footer></footer>
+
+<script>
+  // Configuração do Supabase
+  const SUPABASE_URL = "https://hnaapsbkrokrkmnzayyr.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_AaxUlPsbivnRIu2_iu3Epg_nzr8w-3u";
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Funções de sessão
+  function salvarSessao(user) {
+    localStorage.setItem("usuarioLogado", JSON.stringify(user));
+  }
+
+  function pegarSessao() {
+    return JSON.parse(localStorage.getItem("usuarioLogado"));
+  }
+
+  // Verificar se já está logado (MAS NÃO REDIRECIONA AUTOMATICAMENTE)
+  const usuarioExistente = pegarSessao();
+  if (usuarioExistente) {
+    // Mostra mensagem e redireciona
+    alert("✅ Você já está logado! Redirecionando...");
+    window.location.href = "menu_cliente.html";
+  }
+
+  // Função de login
+  async function fazerLogin(email, password) {
+    try {
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      if (error) throw error;
+      return { success: true, user: data.user };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // Evento do formulário
+  document.getElementById("formLogin").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    
+    if (!email || !password) {
+      alert("❌ Preencha email e senha!");
+      return;
+    }
+    
+    const result = await fazerLogin(email, password);
+    
+    if (result.success) {
+      alert("✅ Login realizado com sucesso!");
+      salvarSessao(result.user);
+      window.location.href = "menu_cliente.html";
+    } else {
+      alert("❌ Erro: " + result.error);
+    }
+  });
+</script>
 
 </body>
 </html>
