@@ -1,8 +1,9 @@
-// 🔥 cria o client do Supabase (NOME CORRETO)
-const supabaseClient = supabase.createClient(
-  "https://SEU_PROJECT.supabase.co",
-  "SUA_ANON_KEY"
+Parse.initialize(
+  "RFqDC4TzWQhojTYJImCifE2Ig1aAxOYl3XmAYhEE",
+  "a3tRJSImhKFjFbmv4xMba3FWAqnlcrAN0jKKieDK"
 );
+
+Parse.serverURL = "https://parseapi.back4app.com";
 
 async function cadastrarUsuario(event){
     event.preventDefault();
