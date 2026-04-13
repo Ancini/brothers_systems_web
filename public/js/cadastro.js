@@ -1,7 +1,7 @@
-Parse.initialize("RFqDC4TzWQhojTYJImCifE2Ig1aAxOYl3XmAYhEE",
-    "a3tRJSImhKFjFbmv4xMba3FWAqnlcrAN0jKKieDK"
+const supabase = supabase.createClient(
+  "https://SEU_PROJECT.supabase.co",
+  "SUA_ANON_KEY"
 );
-Parse.serverURL = "https://parseapi.back4app.com";
 
 async function cadastrarUsuario(event){
     event.preventDefault();
@@ -19,11 +19,22 @@ async function cadastrarUsuario(event){
 
     try {
 
+        // 🔥 1. Criar no Supabase Auth
+        const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: senha,
+        });
+
+        if (error) throw error;
+
+        const authId = data.user.id;
+
+        // 🔥 2. Salvar no seu banco via Cloud Code
         const resposta = await Parse.Cloud.run("cadastrarUsuario", {
             nome: nome,
             email: email,
             telefone: telefone,
-            senha: senha
+            auth_id: authId // 👈 mudou aqui
         });
 
         alert("Usuário cadastrado com sucesso");
@@ -36,5 +47,4 @@ async function cadastrarUsuario(event){
         alert("Erro ao cadastrar");
 
     }
-
 }
