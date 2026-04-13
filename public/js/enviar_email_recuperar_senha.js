@@ -11,7 +11,7 @@ async function recuperarSenha(event) {
     try {
 
         const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-            redirectTo: "http://localhost:5500/recuperar_senha.html"
+            redirectTo: "esqueci_minha_senha.html"
         });
 
         if (error) throw error;
