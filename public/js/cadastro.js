@@ -1,4 +1,5 @@
-const supabase = supabase.createClient(
+// 🔥 cria o client do Supabase (NOME CORRETO)
+const supabaseClient = supabase.createClient(
   "https://SEU_PROJECT.supabase.co",
   "SUA_ANON_KEY"
 );
@@ -12,6 +13,7 @@ async function cadastrarUsuario(event){
     const senha = document.getElementById("senha").value;
     const confirmarsenha = document.getElementById("confirmarsenha").value;
 
+    // ✅ validação básica
     if (senha !== confirmarsenha) {
         alert("Senhas diferentes");
         return;
@@ -19,32 +21,41 @@ async function cadastrarUsuario(event){
 
     try {
 
-        // 🔥 1. Criar no Supabase Auth
-        const { data, error } = await supabase.auth.signUp({
+        // 🔥 1. cria usuário no Supabase Auth
+        const { data, error } = await supabaseClient.auth.signUp({
             email: email,
             password: senha,
         });
 
-        if (error) throw error;
+        if (error) {
+            console.error("Erro Supabase:", error);
+            throw error;
+        }
 
-        const authId = data.user.id;
+        // ⚠️ pode ser null dependendo da config (confirmação de email)
+        const authId = data?.user?.id;
 
-        // 🔥 2. Salvar no seu banco via Cloud Code
+        if (!authId) {
+            alert("Verifique seu email para confirmar o cadastro.");
+            return;
+        }
+
+        // 🔥 2. salva no seu banco via Cloud Code
         const resposta = await Parse.Cloud.run("cadastrarUsuario", {
             nome: nome,
             email: email,
             telefone: telefone,
-            auth_id: authId // 👈 mudou aqui
+            auth_id: authId
         });
 
-        alert("Usuário cadastrado com sucesso");
+        console.log("Resposta backend:", resposta);
 
-        console.log(resposta);
+        alert("Usuário cadastrado com sucesso!");
 
     } catch (erro) {
 
-        console.error(erro);
-        alert("Erro ao cadastrar");
+        console.error("Erro geral:", erro);
+        alert("Erro ao cadastrar usuário");
 
     }
 }
