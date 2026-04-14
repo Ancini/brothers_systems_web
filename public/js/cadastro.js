@@ -32,7 +32,7 @@ async function cadastrarUsuario(event){
             email: email,
             password: senha,
             options: {
-                emailRedirectTo: "https://SEU-APP.back4app.io/index.html"
+                emailRedirectTo: "https://brotherssystems1-w1o4fqya.b4a.run/redefinir_senha.html"
             }
         });
 
