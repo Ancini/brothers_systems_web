@@ -27,10 +27,13 @@ async function cadastrarUsuario(event){
 
     try {
 
-        // 🔥 1. cria usuário no Supabase Auth
+        // 🔥 1. cria usuário no Supabase Auth + redirect correto
         const { data, error } = await supabaseClient.auth.signUp({
             email: email,
             password: senha,
+            options: {
+                emailRedirectTo: "https://SEU-APP.back4app.io/index.html"
+            }
         });
 
         if (error) {
@@ -38,25 +41,22 @@ async function cadastrarUsuario(event){
             throw error;
         }
 
-        // ⚠️ pode ser null dependendo da config (confirmação de email)
         const authId = data?.user?.id;
 
-        if (!authId) {
-            alert("Verifique seu email para confirmar o cadastro.");
-            return;
+        // 🔥 2. salva no banco (mesmo sem confirmação ainda)
+        if (authId) {
+            const resposta = await Parse.Cloud.run("cadastrarUsuario", {
+                nome: nome,
+                email: email,
+                telefone: telefone,
+                auth_id: authId
+            });
+
+            console.log("Resposta backend:", resposta);
         }
 
-        // 🔥 2. salva no seu banco via Cloud Code
-        const resposta = await Parse.Cloud.run("cadastrarUsuario", {
-            nome: nome,
-            email: email,
-            telefone: telefone,
-            auth_id: authId
-        });
-
-        console.log("Resposta backend:", resposta);
-
-        alert("Usuário cadastrado com sucesso!");
+        // 🔔 mensagem final
+        alert("Cadastro realizado! Verifique seu e-mail para confirmar a conta.");
 
     } catch (erro) {
 
