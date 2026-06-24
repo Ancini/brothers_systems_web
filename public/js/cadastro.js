@@ -47,9 +47,9 @@ async function cadastrarUsuario(event) {
             await supabaseClient
                 .from("usuario")
                 .insert({
-                    nome_usuario,
-                    email_usuario,
-                    telefone_usuario,
+                    nome_usuario: nome,
+                    email_usuario: email,
+                    telefone_usuario: telefone,
                     auth_id: authId
                 });
 
