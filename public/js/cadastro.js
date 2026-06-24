@@ -3,23 +3,16 @@ const supabaseClient = supabase.createClient(
   "sb_publishable_AaxUlPsbivnRIu2_iu3Epg_nzr8w-3u"
 );
 
-Parse.initialize(
-  "RFqDC4TzWQhojTYJImCifE2Ig1aAxOYl3XmAYhEE",
-  "a3tRJSImhKFjFbmv4xMba3FWAqnlcrAN0jKKieDK"
-);
-
-Parse.serverURL = "https://parseapi.back4app.com";
-
-async function cadastrarUsuario(event){
+async function cadastrarUsuario(event) {
     event.preventDefault();
 
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
-    const telefone = document.getElementById("telefone").value;
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const telefone = document.getElementById("telefone").value.trim();
     const senha = document.getElementById("senha").value;
     const confirmarsenha = document.getElementById("confirmarsenha").value;
 
-    // ✅ validação básica
+    // validação básica
     if (senha !== confirmarsenha) {
         alert("Senhas diferentes");
         return;
@@ -27,9 +20,9 @@ async function cadastrarUsuario(event){
 
     try {
 
-        // 🔥 1. cria usuário no Supabase Auth + redirect correto
+        // 1. Cria usuário no Auth
         const { data, error } = await supabaseClient.auth.signUp({
-            email: email,
+            email,
             password: senha,
             options: {
                 emailRedirectTo: "https://brotherssystems1-w1o4fqya.b4a.run/redefinir_senha.html"
@@ -37,31 +30,44 @@ async function cadastrarUsuario(event){
         });
 
         if (error) {
-            console.error("Erro Supabase:", error);
             throw error;
         }
 
         const authId = data?.user?.id;
 
-        // 🔥 2. salva no banco (mesmo sem confirmação ainda)
-        if (authId) {
-            const resposta = await Parse.Cloud.run("cadastrarUsuario", {
-                nome: nome,
-                email: email,
-                telefone: telefone,
-                auth_id: authId
-            });
+        console.log("Usuário Auth criado:", authId);
 
-            console.log("Resposta backend:", resposta);
+        // verifica se ID existe
+        if (!authId) {
+            throw new Error("Não foi possível obter o ID do usuário");
         }
 
-        // 🔔 mensagem final
+        // 2. Salva dados adicionais na tabela usuario
+        const { data: usuarioData, error: usuarioError } =
+            await supabaseClient
+                .from("usuario")
+                .insert({
+                    nome,
+                    email,
+                    telefone,
+                    auth_id: authId
+                });
+
+        if (usuarioError) {
+            throw usuarioError;
+        }
+
+        console.log("Usuário salvo:", usuarioData);
+
         alert("Cadastro realizado! Verifique seu e-mail para confirmar a conta.");
 
     } catch (erro) {
 
         console.error("Erro geral:", erro);
-        alert("Erro ao cadastrar usuário");
 
+        alert(
+            erro.message ||
+            "Erro ao cadastrar usuário"
+        );
     }
 }
