@@ -1,6 +1,6 @@
 const supabaseClient = supabase.createClient(
-  "https://hnaapsbkrokrkmnzayyr.supabase.co",
-  "sb_publishable_AaxUlPsbivnRIu2_iu3Epg_nzr8w-3u"
+    "https://hnaapsbkrokrkmnzayyr.supabase.co",
+    "sb_publishable_AaxUlPsbivnRIu2_iu3Epg_nzr8w-3u"
 );
 
 async function cadastrarUsuario(event) {
@@ -12,58 +12,85 @@ async function cadastrarUsuario(event) {
     const senha = document.getElementById("senha").value;
     const confirmarsenha = document.getElementById("confirmarsenha").value;
 
-    // validação básica
+    // valida senha
     if (senha !== confirmarsenha) {
-        alert("Senhas diferentes");
+        alert("As senhas são diferentes");
         return;
     }
 
     try {
 
-        // 1. Cria usuário no Auth
-        const { data, error } = await supabaseClient.auth.signUp({
-            email,
-            password: senha,
-            options: {
-                emailRedirectTo: "https://brotherssystems1-w1o4fqya.b4a.run/redefinir_senha.html"
-            }
-        });
+        // Cria usuário no Auth
+        const { data, error } =
+            await supabaseClient.auth.signUp({
+                email,
+                password: senha,
+                options: {
+                    emailRedirectTo:
+                        "https://brotherssystems1-w1o4fqya.b4a.run/redefinir_senha.html"
+                }
+            });
 
         if (error) {
             throw error;
         }
 
-        const authId = data?.user?.id;
+        console.log("Retorno signup:", data);
 
-        console.log("Usuário Auth criado:", authId);
+        const authId = data.user?.id;
 
-        // verifica se ID existe
+        console.log("Auth ID:", authId);
+
         if (!authId) {
-            throw new Error("Não foi possível obter o ID do usuário");
+            throw new Error(
+                "Não foi possível obter o ID do usuário"
+            );
         }
 
-        // 2. Salva dados adicionais na tabela usuario
-        const { data: usuarioData, error: usuarioError } =
-            await supabaseClient
-                .from("usuario")
-                .insert({
+        // Verifica se existe sessão/usuário
+        const { data: usuarioLogado } =
+            await supabaseClient.auth.getUser();
+
+        console.log(
+            "Usuário atual:",
+            usuarioLogado
+        );
+
+        // Salva dados na tabela usuario
+        const {
+            data: usuarioData,
+            error: usuarioError
+        } = await supabaseClient
+            .from("usuario")
+            .insert([
+                {
                     nome_usuario: nome,
                     email_usuario: email,
                     telefone_usuario: telefone,
                     auth_id: authId
-                });
+                }
+            ])
+            .select();
 
         if (usuarioError) {
             throw usuarioError;
         }
 
-        console.log("Usuário salvo:", usuarioData);
+        console.log(
+            "Usuário salvo:",
+            usuarioData
+        );
 
-        alert("Cadastro realizado! Verifique seu e-mail para confirmar a conta.");
+        alert(
+            "Cadastro realizado com sucesso! Verifique seu e-mail para confirmar sua conta."
+        );
 
     } catch (erro) {
 
-        console.error("Erro geral:", erro);
+        console.error(
+            "Erro geral:",
+            erro
+        );
 
         alert(
             erro.message ||
