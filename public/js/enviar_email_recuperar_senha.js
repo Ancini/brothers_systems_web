@@ -1,3 +1,5 @@
+
+
 async function recuperarSenha(email) {
   const { error } = await supabase.auth.resetPasswordForEmail(
     email,
