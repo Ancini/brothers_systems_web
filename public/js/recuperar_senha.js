@@ -1,13 +1,16 @@
 const supabaseClient = supabase.createClient(
   "https://hnaapsbkrokrkmnzayyr.supabase.co",
-  "sb_publishable_AaxUlPsbivnRIu2_iu3Epg_nzr8w-3u"
+  "SUA_CHAVE"
 );
 
 async function redefinirSenha(event) {
     event.preventDefault();
 
-    const novaSenha = document.getElementById("novaSenha").value;
-    const confirmarSenha = document.getElementById("confirmarSenha").value;
+    const novaSenha =
+        document.getElementById("novaSenha").value;
+
+    const confirmarSenha =
+        document.getElementById("confirmarSenha").value;
 
     if (novaSenha !== confirmarSenha) {
         alert("As senhas não coincidem");
@@ -21,20 +24,21 @@ async function redefinirSenha(event) {
 
     try {
 
-        // 🔥 ESSENCIAL: carregar sessão do link
-        await supabaseClient.auth.refreshSession();
+        // verifica se a sessão foi criada pelo link
+        const {
+            data: { session }
+        } = await supabaseClient.auth.getSession();
 
-        const { data: sessionData } = await supabaseClient.auth.getSession();
-
-        if (!sessionData.session) {
+        if (!session) {
             alert("Link inválido ou expirado");
             return;
         }
 
-        // 🔥 atualiza senha
-        const { error } = await supabaseClient.auth.updateUser({
-            password: novaSenha
-        });
+        // atualiza a senha
+        const { error } =
+            await supabaseClient.auth.updateUser({
+                password: novaSenha
+            });
 
         if (error) throw error;
 
@@ -43,7 +47,11 @@ async function redefinirSenha(event) {
         window.location.href = "index.html";
 
     } catch (erro) {
-        console.error(erro);
-        alert("Erro ao redefinir senha");
+        console.error("Erro:", erro);
+        alert(erro.message || "Erro ao redefinir senha");
     }
 }
+
+document
+.getElementById("formSenha")
+.addEventListener("submit", redefinirSenha);
