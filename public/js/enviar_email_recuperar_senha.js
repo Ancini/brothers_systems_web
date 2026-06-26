@@ -2,7 +2,7 @@ async function recuperarSenha(email) {
   const { error } = await supabase.auth.resetPasswordForEmail(
     email,
     {
-      redirectTo: 'http://localhost:5500/nova-senha.html'
+      redirectTo: 'http://localhost:3000/redefinir_senha.html'
       // depois troque pela URL real do site
     }
   );
