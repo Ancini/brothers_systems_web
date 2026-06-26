@@ -14,7 +14,7 @@ async function recuperarSenha(event) {
             email,
             {
                 redirectTo:
-                "https://brothers-systems-web.vercel.app/redefinir_senha"
+                "https://brothers-systems-web.vercel.app/redefinir_senha.html"
             }
         );
 
