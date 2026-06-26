@@ -3,22 +3,26 @@ const supabaseClient = supabase.createClient(
     "sb_publishable_AaxUlPsbivnRIu2_iu3Epg_nzr8w-3u"
 );
 
-async function recuperarSenha(email) {
+async function recuperarSenha(event) {
+    event.preventDefault();
 
-  const { error } =
-    await supabaseClient.auth.resetPasswordForEmail(
-      email,
-      {
-        redirectTo:
-        'http://localhost:3000/redefinir_senha.html'
-      }
-    );
+    const email =
+        document.getElementById("email").value;
 
-  if (error) {
-    console.log(error.message);
-    alert(error.message);
-    return;
-  }
+    const { error } =
+        await supabaseClient.auth.resetPasswordForEmail(
+            email,
+            {
+                redirectTo:
+                "http://localhost:3000/redefinir_senha.html"
+            }
+        );
 
-  alert("Email de recuperação enviado!");
+    if (error) {
+        console.log(error);
+        alert(error.message);
+        return;
+    }
+
+    alert("Email de recuperação enviado!");
 }
