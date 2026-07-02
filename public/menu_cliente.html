@@ -1,230 +1,346 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brothers Systems - Agendamento</title>
-    <link rel="stylesheet" href="css/menu_cliente.css">
-    <style>
-        /* Estilo adicional para o botão de sair do rodapé */
-        .footer-sair {
-            margin-top: 40px;
-            padding: 20px;
-            text-align: center;
-            border-top: 1px solid #e0e0e0;
-        }
-        
-        .logout-btn-footer {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-        
-        .logout-btn-footer:hover {
-            background: #c82333;
-        }
-        
-        .logout-btn-header {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-left: auto;
-        }
-        
-        .logout-btn-header:hover {
-            background: #c82333;
-        }
-        
-        .copyright {
-            margin-top: 15px;
-            font-size: 12px;
-            color: #999;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brothers Systems - Agendamento</title>
+<link rel="stylesheet" href="css/menu_cliente.css">
+
+<style>
+.footer-sair {
+    margin-top:40px;
+    padding:20px;
+    text-align:center;
+    border-top:1px solid #e0e0e0;
+}
+
+.logout-btn-footer{
+    background:#dc3545;
+    color:white;
+    border:none;
+    padding:12px 24px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.logout-btn-header{
+    background:#dc3545;
+    color:white;
+    border:none;
+    padding:8px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-left:auto;
+}
+
+.copyright{
+    margin-top:15px;
+    font-size:12px;
+    color:#999;
+}
+</style>
+
 </head>
+
 <body>
-    <div class="container">
-        <!-- Header com informações do cliente -->
-        <header class="header">
-            <div class="cliente-card">
-                <div class="cliente-avatar">
-                    <img src="css/imagens/barbeiro.png" alt="Cliente">
-                </div>
-                <div class="cliente-info">
-                    <span class="label">Cliente</span>
-                    <span class="nome">Carregando...</span>
-                </div>
-            </div>
-            
-            <div class="pontuacao-card">
-                <div class="pontuacao-icone">
-                    <img src="css/imagens/pontuacao-maxima.png" alt="Pontuação">
-                </div>
-                <div class="pontuacao-info">
-                    <span class="label">Pontuação</span>
-                    <span class="valor">45</span>
-                </div>
-            </div>
-        </header>
 
-        <div class="ranking-card">
-            <div class="ranking-left">
-                <img src="css/imagens/ranking.png" alt="Ranking" class="ranking-icon">
-                <span class="ranking-titulo">Ranking</span>
-            </div>
-            <span class="ranking-link">Tabela de pontuação</span>
-        </div>
-        <div class="busca-card">
-            <img src="css/imagens/busca.png" alt="Buscar" class="busca-icon">
-            <span class="busca-texto">Buscar estabelecimento</span>
-        </div>
-        <section class="estabelecimentos-section">
-            <div class="section-badge abertos">
-                <span>Abertos agora</span>
-            </div>
-            
-            <div class="estabelecimentos-grid">
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia1.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Barbearia do Leo</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia2.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Barbearia Lisboa</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia3.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Borcela Barbearia</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia4.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Barber Shop</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia5.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Barbearia Nabala</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia6.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Barber Adysson Souza</span>
-                </div>
-            </div>
-        </section>
+<div class="container">
 
-        <section class="estabelecimentos-section">
-            <div class="section-badge fechados">
-                <span>Fechados que abrem em seguida</span>
-            </div>
-            
-            <div class="estabelecimentos-grid">
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia7.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Faustino barber</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia8.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Kalo BarberShop</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia9.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Coronel Brook</span>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Rodapé com botão Sair -->
-        <div class="footer-sair">
-            <button class="logout-btn-footer" id="btnSairFooter">🚪 Sair da Conta</button>
-            <div class="copyright">© 2026 Brothers Systems - Todos os direitos reservados</div>
-        </div>
-    </div>
+<header class="header">
 
-    <script>
-        // Funções de sessão (cópia local para não precisar de import)
-        function pegarSessao() {
-            return JSON.parse(localStorage.getItem("usuarioLogado"));
-        }
+<div class="cliente-card">
+<div class="cliente-avatar">
+<img src="css/imagens/barbeiro.png">
+</div>
 
-        function logout() {
-            localStorage.removeItem("usuarioLogado");
-            console.log("Usuário deslogado, sessão removida");
-        }
+<div class="cliente-info">
+<span class="label">Cliente</span>
+<span class="nome">Carregando...</span>
+</div>
+</div>
 
-        // Verificar se está logado
-        const user = pegarSessao();
+<div class="pontuacao-card">
+<div class="pontuacao-icone">
+<img src="css/imagens/pontuacao-maxima.png">
+</div>
 
-        if (!user) {
-            alert("Você não está logado! Redirecionando para o login...");
-            window.location.href = "index.html";
-        }
+<div class="pontuacao-info">
+<span class="label">Pontuação</span>
+<span class="valor">45</span>
+</div>
 
-        // Atualizar o nome do cliente no header
-        const nomeClienteSpan = document.querySelector('.cliente-info .nome');
-        if (nomeClienteSpan && user) {
-            const nome = user.user_metadata?.name || user.email?.split('@')[0] || "Cliente";
-            nomeClienteSpan.textContent = nome;
-        }
+</div>
 
-        // Adicionar botão de logout no header (canto superior direito)
-        const header = document.querySelector('.header');
-        if (header && !document.querySelector('.logout-btn-header')) {
-            const logoutBtnHeader = document.createElement('button');
-            logoutBtnHeader.textContent = 'Sair';
-            logoutBtnHeader.className = 'logout-btn-header';
-            logoutBtnHeader.onclick = () => {
-                if (confirm("Tem certeza que deseja sair da sua conta?")) {
-                    logout();
-                    window.location.href = "index.html";
-                }
-            };
-            header.appendChild(logoutBtnHeader);
-        }
+</header>
 
-        // Botão de sair no rodapé
-        const btnSairFooter = document.getElementById('btnSairFooter');
-        if (btnSairFooter) {
-            btnSairFooter.onclick = () => {
-                if (confirm("Tem certeza que deseja sair da sua conta?")) {
-                    logout();
-                    window.location.href = "index.html";
-                }
-            };
-        }
-    </script>
+
+<div class="ranking-card">
+<div class="ranking-left">
+<img src="css/imagens/ranking.png"
+class="ranking-icon">
+
+<span class="ranking-titulo">
+Ranking
+</span>
+</div>
+
+<span class="ranking-link">
+Tabela de pontuação
+</span>
+
+</div>
+
+
+<div class="busca-card">
+<img src="css/imagens/busca.png"
+class="busca-icon">
+
+<span class="busca-texto">
+Buscar estabelecimento
+</span>
+
+</div>
+
+
+<!-- ABERTOS -->
+
+<section class="estabelecimentos-section">
+
+<div class="section-badge abertos">
+<span>Abertos agora</span>
+</div>
+
+<div
+class="estabelecimentos-grid"
+id="abertos">
+
+Carregando...
+
+</div>
+
+</section>
+
+
+
+<!-- FECHADOS -->
+
+<section class="estabelecimentos-section">
+
+<div class="section-badge fechados">
+<span>Fechados que abrem em seguida</span>
+</div>
+
+<div
+class="estabelecimentos-grid"
+id="fechados">
+
+Carregando...
+
+</div>
+
+</section>
+
+
+<div class="footer-sair">
+
+<button
+class="logout-btn-footer"
+id="btnSairFooter">
+
+🚪 Sair da Conta
+
+</button>
+
+<div class="copyright">
+© 2026 Brothers Systems
+</div>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import { supabase }
+from "./js/supabase.js";
+
+
+// sessão atual
+function pegarSessao(){
+    return JSON.parse(
+        localStorage.getItem(
+            "usuarioLogado"
+        )
+    );
+}
+
+function logout(){
+    localStorage.removeItem(
+        "usuarioLogado"
+    );
+}
+
+
+// verifica login
+const user = pegarSessao();
+
+if(!user){
+
+    alert(
+        "Você não está logado!"
+    );
+
+    window.location.href=
+    "index.html";
+
+}
+
+
+// nome cliente
+const nomeClienteSpan =
+document.querySelector(
+'.cliente-info .nome'
+);
+
+const nome =
+user.user_metadata?.name ||
+user.email?.split('@')[0] ||
+"Cliente";
+
+nomeClienteSpan.textContent=
+nome;
+
+
+// logout
+document
+.getElementById(
+'btnSairFooter'
+)
+.addEventListener(
+'click',
+()=>{
+
+if(confirm(
+'Deseja sair?'
+)){
+
+logout();
+
+window.location.href=
+'index.html';
+
+}
+
+}
+);
+
+
+// carregar estabelecimentos
+async function carregar(){
+
+const [
+    {data:abertos},
+    {data:fechados}
+]
+=
+await Promise.all([
+
+supabase
+.from(
+'estabelecimentos_abertos'
+)
+.select('*'),
+
+supabase
+.from(
+'estabelecimentos_fechados'
+)
+.select('*')
+
+]);
+
+
+renderizar(
+abertos,
+"abertos"
+);
+
+renderizar(
+fechados,
+"fechados"
+);
+
+}
+
+
+
+function renderizar(
+lista,
+containerId
+){
+
+const container =
+document.getElementById(
+containerId
+);
+
+container.innerHTML="";
+
+
+if(
+!lista ||
+lista.length===0
+){
+
+container.innerHTML=
+`
+<p>
+Nenhum estabelecimento
+encontrado
+</p>
+`;
+
+return;
+
+}
+
+
+lista.forEach(est=>{
+
+container.innerHTML +=
+`
+
+<div class="estabelecimento-item">
+
+<div class="estabelecimento-logo">
+
+<img
+src="${est.imagem_url}"
+alt="${est.nome}"
+>
+
+</div>
+
+<span
+class="estabelecimento-nome">
+
+${est.nome}
+
+</span>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+carregar();
+
+</script>
+
 </body>
 </html>
