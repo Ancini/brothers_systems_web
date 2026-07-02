@@ -1,45 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brothers Systems - Agendamento</title>
-<link rel="stylesheet" href="css/menu_cliente.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brothers Systems - Agendamento</title>
+    <link rel="stylesheet" href="css/menu_cliente.css">
 
-<style>
-.footer-sair {
-    margin-top:40px;
-    padding:20px;
-    text-align:center;
-    border-top:1px solid #e0e0e0;
-}
+    <style>
+        .footer-sair {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
 
-.logout-btn-footer{
-    background:#dc3545;
-    color:white;
-    border:none;
-    padding:12px 24px;
-    border-radius:8px;
-    cursor:pointer;
-}
+        .logout-btn-footer {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
 
-.logout-btn-header{
-    background:#dc3545;
-    color:white;
-    border:none;
-    padding:8px 16px;
-    border-radius:8px;
-    cursor:pointer;
-    margin-left:auto;
-}
+        .logout-btn-footer:hover {
+            background: #c82333;
+        }
 
-.copyright{
-    margin-top:15px;
-    font-size:12px;
-    color:#999;
-}
-</style>
+        .logout-btn-header {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: auto;
+        }
 
+        .logout-btn-header:hover {
+            background: #c82333;
+        }
+
+        .copyright {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
 </head>
 
 <body>
@@ -48,56 +58,57 @@
 
 <header class="header">
 
-<div class="cliente-card">
-<div class="cliente-avatar">
-<img src="css/imagens/barbeiro.png">
-</div>
+    <div class="cliente-card">
+        <div class="cliente-avatar">
+            <img src="css/imagens/barbeiro.png" alt="Cliente">
+        </div>
 
-<div class="cliente-info">
-<span class="label">Cliente</span>
-<span class="nome">Carregando...</span>
-</div>
-</div>
+        <div class="cliente-info">
+            <span class="label">Cliente</span>
+            <span class="nome">Carregando...</span>
+        </div>
+    </div>
 
-<div class="pontuacao-card">
-<div class="pontuacao-icone">
-<img src="css/imagens/pontuacao-maxima.png">
-</div>
+    <div class="pontuacao-card">
+        <div class="pontuacao-icone">
+            <img src="css/imagens/pontuacao-maxima.png" alt="Pontuação">
+        </div>
 
-<div class="pontuacao-info">
-<span class="label">Pontuação</span>
-<span class="valor">45</span>
-</div>
-
-</div>
+        <div class="pontuacao-info">
+            <span class="label">Pontuação</span>
+            <span class="valor">45</span>
+        </div>
+    </div>
 
 </header>
 
-
 <div class="ranking-card">
-<div class="ranking-left">
-<img src="css/imagens/ranking.png"
-class="ranking-icon">
 
-<span class="ranking-titulo">
-Ranking
-</span>
+    <div class="ranking-left">
+        <img src="css/imagens/ranking.png"
+        alt="Ranking"
+        class="ranking-icon">
+
+        <span class="ranking-titulo">
+            Ranking
+        </span>
+    </div>
+
+    <span class="ranking-link">
+        Tabela de pontuação
+    </span>
+
 </div>
-
-<span class="ranking-link">
-Tabela de pontuação
-</span>
-
-</div>
-
 
 <div class="busca-card">
-<img src="css/imagens/busca.png"
-class="busca-icon">
 
-<span class="busca-texto">
-Buscar estabelecimento
-</span>
+    <img src="css/imagens/busca.png"
+    alt="Buscar"
+    class="busca-icon">
+
+    <span class="busca-texto">
+        Buscar estabelecimento
+    </span>
 
 </div>
 
@@ -106,68 +117,66 @@ Buscar estabelecimento
 
 <section class="estabelecimentos-section">
 
-<div class="section-badge abertos">
-<span>Abertos agora</span>
-</div>
+    <div class="section-badge abertos">
+        <span>Abertos agora</span>
+    </div>
 
-<div
-class="estabelecimentos-grid"
-id="abertos">
+    <div
+    class="estabelecimentos-grid"
+    id="abertos">
 
-Carregando...
+    Carregando...
 
-</div>
+    </div>
 
 </section>
-
 
 
 <!-- FECHADOS -->
 
 <section class="estabelecimentos-section">
 
-<div class="section-badge fechados">
-<span>Fechados que abrem em seguida</span>
-</div>
+    <div class="section-badge fechados">
+        <span>Fechados que abrem em seguida</span>
+    </div>
 
-<div
-class="estabelecimentos-grid"
-id="fechados">
+    <div
+    class="estabelecimentos-grid"
+    id="fechados">
 
-Carregando...
+    Carregando...
 
-</div>
+    </div>
 
 </section>
 
 
 <div class="footer-sair">
+    <button
+    class="logout-btn-footer"
+    id="btnSairFooter">
 
-<button
-class="logout-btn-footer"
-id="btnSairFooter">
+    🚪 Sair da Conta
 
-🚪 Sair da Conta
+    </button>
 
-</button>
-
-<div class="copyright">
-© 2026 Brothers Systems
+    <div class="copyright">
+        © 2026 Brothers Systems
+    </div>
 </div>
 
 </div>
-
-</div>
-
 
 <script type="module">
 
-import { supabase }
-from "./js/supabase.js";
+import {
+    buscarAbertos,
+    buscarFechados
+} from "./js/estabelecimentos.js";
 
 
-// sessão atual
-function pegarSessao(){
+// sessão
+function pegarSessao() {
     return JSON.parse(
         localStorage.getItem(
             "usuarioLogado"
@@ -175,44 +184,50 @@ function pegarSessao(){
     );
 }
 
-function logout(){
+function logout() {
+
     localStorage.removeItem(
         "usuarioLogado"
     );
+
 }
 
 
-// verifica login
+// verificar login
 const user = pegarSessao();
 
-if(!user){
+if (!user) {
 
     alert(
         "Você não está logado!"
     );
 
-    window.location.href=
+    window.location.href =
     "index.html";
 
 }
 
 
-// nome cliente
+// nome usuário
 const nomeClienteSpan =
 document.querySelector(
 '.cliente-info .nome'
 );
+
+if(user){
 
 const nome =
 user.user_metadata?.name ||
 user.email?.split('@')[0] ||
 "Cliente";
 
-nomeClienteSpan.textContent=
+nomeClienteSpan.textContent =
 nome;
 
+}
 
-// logout
+
+// botão sair
 document
 .getElementById(
 'btnSairFooter'
@@ -222,13 +237,13 @@ document
 ()=>{
 
 if(confirm(
-'Deseja sair?'
+"Tem certeza que deseja sair?"
 )){
 
 logout();
 
-window.location.href=
-'index.html';
+window.location.href =
+"index.html";
 
 }
 
@@ -237,26 +252,17 @@ window.location.href=
 
 
 // carregar estabelecimentos
-async function carregar(){
+async function carregarEstabelecimentos(){
 
 const [
-    {data:abertos},
-    {data:fechados}
+abertos,
+fechados
 ]
 =
 await Promise.all([
 
-supabase
-.from(
-'estabelecimentos_abertos'
-)
-.select('*'),
-
-supabase
-.from(
-'estabelecimentos_fechados'
-)
-.select('*')
+buscarAbertos(),
+buscarFechados()
 
 ]);
 
@@ -296,8 +302,7 @@ lista.length===0
 container.innerHTML=
 `
 <p>
-Nenhum estabelecimento
-encontrado
+Nenhum estabelecimento encontrado
 </p>
 `;
 
@@ -313,21 +318,20 @@ container.innerHTML +=
 
 <div class="estabelecimento-item">
 
-<div class="estabelecimento-logo">
+    <div class="estabelecimento-logo">
 
-<img
-src="${est.imagem_url}"
-alt="${est.nome}"
->
+        <img
+        src="${est.imagem_url}"
+        alt="${est.nome}"
+        >
 
-</div>
+    </div>
 
-<span
-class="estabelecimento-nome">
+    <span class="estabelecimento-nome">
 
-${est.nome}
+        ${est.nome}
 
-</span>
+    </span>
 
 </div>
 
@@ -338,7 +342,7 @@ ${est.nome}
 }
 
 
-carregar();
+carregarEstabelecimentos();
 
 </script>
 
