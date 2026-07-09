@@ -1,7 +1,7 @@
 import {
     buscarAbertos,
     buscarFechados
-} from "./estabelecimentos.js";
+} from "./abertos_fechados.js";
 
 async function inicializarEstabelecimentos() {
     try {
