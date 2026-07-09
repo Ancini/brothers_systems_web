@@ -2,9 +2,8 @@ import { supabase } from "./supabase.js";
 
 // Buscar abertos
 export async function buscarAbertos() {
-
     const { data, error } = await supabase
-        .from("estabelecimentos_abertos")
+        .from("estabelicimentos_abertos") // Ajustado para corresponder à view do banco
         .select("*");
 
     if (error) {
@@ -17,9 +16,8 @@ export async function buscarAbertos() {
 
 // Buscar fechados
 export async function buscarFechados() {
-
     const { data, error } = await supabase
-        .from("estabelecimentos_fechados")
+        .from("estabelicimentos_fechados") // Ajustado para corresponder à view do banco
         .select("*");
 
     if (error) {

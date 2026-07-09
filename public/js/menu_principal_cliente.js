@@ -3,7 +3,6 @@ import {
     buscarFechados
 } from "./estabelecimentos.js";
 
-// Executa a busca e renderização encapsulada para tratar possíveis erros de rede
 async function inicializarEstabelecimentos() {
     try {
         const abertos = await buscarAbertos();
@@ -19,7 +18,6 @@ async function inicializarEstabelecimentos() {
 function renderizar(lista, containerId) {
     const container = document.getElementById(containerId);
     
-    // Evita erros caso o ID não exista no HTML
     if (!container) {
         console.warn(`Container com ID '${containerId}' não foi encontrado no HTML.`);
         return;
@@ -27,7 +25,6 @@ function renderizar(lista, containerId) {
 
     container.innerHTML = "";
 
-    // Se não houver barbearias nessa categoria, exibe uma mensagem discreta
     if (!lista || lista.length === 0) {
         container.innerHTML = `
             <p style="color: #999; font-size: 14px; grid-column: 1/-1; text-align: center; padding: 20px;">
@@ -38,21 +35,22 @@ function renderizar(lista, containerId) {
     }
 
     lista.forEach(est => {
-        // Fallback para uma imagem padrão caso o banco não tenha uma URL válida
-        const imagem = est.imagem_url || "css/imagens/default-barber.png";
+        // Mapeando para as colunas exatas da sua View (imagem_estab e nome_estabelicimento)
+        const imagem = est.imagem_estab || "css/imagens/default-barber.png";
+        const nome = est.nome_estabelicimento;
 
         container.innerHTML += `
             <div class="estabelecimento-item">
                 <div class="estabelecimento-logo">
-                    <img src="${imagem}" alt="${est.nome}">
+                    <img src="${imagem}" alt="${nome}">
                 </div>
                 <span class="estabelecimento-nome">
-                    ${est.nome}
+                    ${nome}
                 </span>
             </div>
         `;
     });
 }
 
-// Dispara a busca assim que o arquivo é carregado
+// Dispara a busca
 await inicializarEstabelecimentos();
