@@ -1,5 +1,10 @@
 import { supabase } from "./supabase.js";
 
+const supabaseClient = supabase.createClient(
+    "https://hnaapsbkrokrkmnzayyr.supabase.co",
+    "sb_publishable_AaxUlPsbivnRIu2_iu3Epg_nzr8w-3u"
+);
+
 // Buscar abertos
 export async function buscarAbertos() {
     const { data, error } = await supabase
