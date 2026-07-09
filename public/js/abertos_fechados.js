@@ -3,7 +3,7 @@ import { supabase } from "./supabase.js";
 // Buscar abertos
 export async function buscarAbertos() {
     const { data, error } = await supabase
-        .from("estabelicimentos_abertos")
+        .from("estabelecimentos_abertos")
         .select("*");
 
     if (error) {
@@ -17,7 +17,7 @@ export async function buscarAbertos() {
 // Buscar fechados
 export async function buscarFechados() {
     const { data, error } = await supabase
-        .from("estabelicimentos_fechados")
+        .from("estabelecimentos_fechados")
         .select("*");
 
     if (error) {
