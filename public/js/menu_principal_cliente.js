@@ -1,3 +1,8 @@
+const supabaseClient = supabase.createClient(
+    "https://hnaapsbkrokrkmnzayyr.supabase.co",
+    "sb_publishable_AaxUlPsbivnRIu2_iu3Epg_nzr8w-3u"
+);
+
 import {
     buscarAbertos,
     buscarFechados
@@ -36,7 +41,7 @@ function renderizar(lista, containerId) {
 
     lista.forEach(est => {
         // Assegura caminhos válidos para as imagens vindas da view
-        const imagem = est.imagem_estab || "css/imagens/default-barber.png";
+        const imagem = est.imagem_estab || ;
         const nome = est.nome_estabelicimento;
 
         container.innerHTML += `
