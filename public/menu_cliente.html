@@ -54,7 +54,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header com informações do cliente -->
         <header class="header">
             <div class="cliente-card">
                 <div class="cliente-avatar">
@@ -88,91 +87,28 @@
             <img src="css/imagens/busca.png" alt="Buscar" class="busca-icon">
             <span class="busca-texto">Buscar estabelecimento</span>
         </div>
+
         <section class="estabelecimentos-section">
             <div class="section-badge abertos">
                 <span>Abertos agora</span>
             </div>
-            
-            <div class="estabelecimentos-grid">
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia1.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Barbearia do Leo</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia2.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Barbearia Lisboa</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia3.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Borcela Barbearia</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia4.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Barber Shop</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia5.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Barbearia Nabala</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia6.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Barber Adysson Souza</span>
-                </div>
-            </div>
+            <div class="estabelecimentos-grid" id="abertos"></div> 
         </section>
 
         <section class="estabelecimentos-section">
             <div class="section-badge fechados">
                 <span>Fechados que abrem em seguida</span>
             </div>
-            
-            <div class="estabelecimentos-grid">
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia7.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Faustino barber</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia8.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Kalo BarberShop</span>
-                </div>
-                
-                <div class="estabelecimento-item">
-                    <div class="estabelecimento-logo">
-                        <img src="css/imagens/barbearia9.png" alt="Barbearia">
-                    </div>
-                    <span class="estabelecimento-nome">Coronel Brook</span>
-                </div>
-            </div>
+            <div class="estabelecimentos-grid" id="fechados"></div>
         </section>
         
-        <!-- Rodapé com botão Sair -->
         <div class="footer-sair">
             <button class="logout-btn-footer" id="btnSairFooter">🚪 Sair da Conta</button>
             <div class="copyright">© 2026 Brothers Systems - Todos os direitos reservados</div>
         </div>
     </div>
+
+    <script type="module" src="js/menu_cliente.js"></script>
 
     <script>
         // Funções de sessão (cópia local para não precisar de import)
