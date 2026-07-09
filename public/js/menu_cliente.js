@@ -41,7 +41,7 @@ function renderizar(lista, containerId) {
 
     lista.forEach(est => {
         // Assegura caminhos válidos para as imagens vindas da view
-        const imagem = est.imagem_estab || ;
+        const imagem = est.imagem_estab;
         const nome = est.nome_estabelicimento;
 
         container.innerHTML += `
