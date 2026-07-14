@@ -181,7 +181,7 @@
         // 🔥 CONTROLE EXCLUSIVO PARA O PERFIL DE BARBEIRO
         if (user) {
             // Verifica a propriedade booleana salva no metadado ou direto no objeto user
-            const ehBarbeiro = user.is_barbeiro || user.user_metadata?.is_barbeiro || false;
+            const ehBarbeiro = user.barbeiro || user.user_metadata?.is_barbeiro || false;
             
             if (ehBarbeiro === true) {
                 const cardAcessoBarbeiro = document.getElementById('cardAcessoBarbeiro');
