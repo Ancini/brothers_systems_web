@@ -50,6 +50,48 @@
             font-size: 12px;
             color: #999;
         }
+
+        /* 🔥 NOVO CSS: ESTILO DO CARD EXTRA DO PAINEL DO BARBEIRO */
+        .barbeiro-acesso-card {
+            display: none; /* Fica oculto por padrão no carregamento da página */
+            background-color: rgb(228, 34, 34); /* Tom vermelho correspondente ao padrão da marca */
+            border-radius: 12px;
+            padding: 15px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .barbeiro-acesso-card:hover {
+            transform: translateY(-3px);
+            background-color: rgb(198, 24, 24);
+        }
+
+        .barbeiro-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .barbeiro-icon {
+            width: 32px;
+            height: auto;
+        }
+
+        .barbeiro-titulo {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .barbeiro-link {
+            font-size: 14px;
+            color: #fff;
+            text-decoration: underline;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -75,6 +117,14 @@
                 </div>
             </div>
         </header>
+
+        <div class="barbeiro-acesso-card" id="cardAcessoBarbeiro">
+            <div class="barbeiro-left">
+                <img src="css/imagens/calendario.png" alt="Agenda" class="barbeiro-icon">
+                <span class="barbeiro-titulo">Painel Administrativo</span>
+            </div>
+            <span class="barbeiro-link">Ver meus agendamentos ➔</span>
+        </div>
 
         <div class="ranking-card">
             <div class="ranking-left">
@@ -126,6 +176,24 @@
         if (!user) {
             alert("Você não está logado! Redirecionando para o login...");
             window.location.href = "index.html";
+        }
+
+        // 🔥 CONTROLE EXCLUSIVO PARA O PERFIL DE BARBEIRO
+        if (user) {
+            // Verifica a propriedade booleana salva no metadado ou direto no objeto user
+            const ehBarbeiro = user.is_barbeiro || user.user_metadata?.is_barbeiro || false;
+            
+            if (ehBarbeiro === true) {
+                const cardAcessoBarbeiro = document.getElementById('cardAcessoBarbeiro');
+                if (cardAcessoBarbeiro) {
+                    cardAcessoBarbeiro.style.display = 'flex'; // Exibe o card para o barbeiro
+                    
+                    // Ação de clique para mudar de página
+                    cardAcessoBarbeiro.onclick = () => {
+                        window.location.href = "menu_inicial_barbeiro.html";
+                    };
+                }
+            }
         }
 
         // Atualizar o nome do cliente no header
