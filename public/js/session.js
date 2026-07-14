@@ -36,7 +36,7 @@ export function verificarFluxoUsuario() {
   }
 
   // Verifica a flag booleana que você criou/vai alterar no banco
-  if (usuario.is_barbeiro === true) {
+  if (usuario.barbeiro === true) {
       console.log(`O usuário ${usuario.nome} é um barbeiro ativo.`);
       
       // Retorna um objeto indicando que ele tem acesso especial
