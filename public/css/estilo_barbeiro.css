@@ -189,3 +189,45 @@ footer{
     display: flex;
     margin: 0 auto;
 }
+
+/* ==========================================================================
+   AJUSTES PARA O FUNCIONAMENTO DINÂMICO (INTEGRAÇÃO COM O JAVASCRIPT)
+   ========================================================================== */
+
+/* 1. Melhora a experiência de clique nos cards de dias */
+.agendamento {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    user-select: none; /* Impede que o usuário selecione o texto sem querer ao clicar rápido */
+}
+
+/* 2. Efeito de Hover específico para os cards de dias */
+.agendamento:hover {
+    transform: translateY(-4px);
+    background-color: #0074ad; /* Tom ligeiramente mais escuro que o azul padrão */
+    box-shadow: 0 6px 15px rgba(30, 144, 255, 0.4);
+}
+
+/* 3. Destaque Visual para o DIA SELECIONADO (ATIVO) */
+.agendamento.ativo {
+    background-color: #004aad !important; /* Cor idêntica à do card do Barbeiro */
+    box-shadow: 0 0 0 3px #ffffff, 0 8px 20px rgba(0, 74, 173, 0.5); /* Borda branca fina e sombra azul */
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* 4. Garante que os links dentro do card de Ranking herdem a cor branca e quebrem linha */
+.texto-ranking a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.texto-ranking a:first-child {
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.texto-ranking a:last-child {
+    font-weight: bold;
+    font-size: 20px;
+}
