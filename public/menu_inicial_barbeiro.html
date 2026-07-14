@@ -27,7 +27,7 @@
             <img src="css/imagens/calendario.png" alt="calendario" class="icone">
             <div class="texto-agendamentos">
                 <span class="titulo1"> Agendamentos </span>
-                <span class="titulo2"> 15 </span>
+                <span class="titulo2"> 0 </span> <!-- O JS atualizará esse número dinamicamente -->
             </div>
         </div>
         <div class="card ranking">
@@ -44,98 +44,22 @@
             </div>
         </div>    
     </div>
-    <div class = "borda-segundaria">
-        <div class ="card agendamento">
-            <div class="texto-dia">
-            <span class="titulo1" style="text-align: center"> 3 DE JUN</span>
-            <span class="titulo2"style="text-align: center"> terça-feira</span>
-        </div>
-        </div>
-        <div class ="card agendamento">
-             <div class="texto-dia">
-            <span class="titulo1"style="text-align: center"> 4 DE JUN</span>
-            <span class="titulo2"style="text-align: center"> quarta-feira </span>
-</div>
-        </div>
-        <div class ="card agendamento">
-            <div class="texto-dia">
-            <span class="titulo1"style="text-align: center"> 5 DE JUN</span>
-            <span class="titulo2"style="text-align: center"> quinta-feira</span>
-</div>
-        </div>
-        <div class ="card agendamento">
-            <div class="texto-dia">
-            <span class="titulo1" style="text-align: center;"> 6 DE JUN</span>
-            <span class="titulo2" style="text-align: center;"> sexta-feira </span>
-            </div>
-        </div>
 
-        </div>
-        <div class="borda-mostrar-agendamentos">
-            <div class="card agendamentos_por_ordem">
-                <div class="texto-agendamento_ordem"></div>
-                <span class="titulo1">Cliente</span>
-                <span class="titulo2">Alexandre Necher Donner</span>
-                <span class="titulo3">Serviço</span>
-                <span class="titulo4">Cabelo + barba </span>
-                 <span class="titulo5">AM</span>
-                 <span class="titulo5">09:30 </span>
-                
-            </div>
-        </div>
-         <div class="borda-mostrar-agendamentos">
-            <div class="card agendamentos_por_ordem">
-                <div class="texto-agendamento_ordem"></div>
-                <span class="titulo1">Cliente</span>
-                <span class="titulo2">Alexandre Necher Donner</span>
-                <span class="titulo3">Serviço</span>
-                <span class="titulo4">Cabelo + barba </span>
-                 <span class="titulo5">AM</span>
-                 <span class="titulo5">09:40 </span>
-                
-            </div>
-        </div>
-         <div class="borda-mostrar-agendamentos">
-            <div class="card agendamentos_por_ordem">
-                <div class="texto-agendamento_ordem"></div>
-                <span class="titulo1">Cliente</span>
-                <span class="titulo2">Alexandre Necher Donner</span>
-                <span class="titulo3">Serviço</span>
-                <span class="titulo4">Cabelo + barba </span>
-                 <span class="titulo5">PM</span>
-                 <span class="titulo5">13:50 </span>
-                
-            </div>
-        </div>
-         <div class="borda-mostrar-agendamentos">
-            <div class="card agendamentos_por_ordem">
-                <div class="texto-agendamento_ordem"></div>
-                <span class="titulo1">Cliente</span>
-                <span class="titulo2">Alexandre Necher Donner</span>
-                <span class="titulo3">Serviço</span>
-                <span class="titulo4">Cabelo + barba </span>
-                 <span class="titulo5">PM</span>
-                 <span class="titulo5">15:10 </span>
-                
-            </div>
-        </div>
-         <div class="borda-mostrar-agendamentos">
-            <div class="card agendamentos_por_ordem">
-                <div class="texto-agendamento_ordem"></div>
-                <span class="titulo1">Cliente</span>
-                <span class="titulo2">Alexandre Necher Donner</span>
-                <span class="titulo3">Serviço</span>
-                <span class="titulo4">Cabelo + barba </span>
-                 <span class="titulo5">PM</span>
-                 <span class="titulo5">20:00 </span>
-                
-            </div>
-        </div>
-
-        
+    <!-- LINHA DO TEMPO (DIAS): O JavaScript gerará os 4 botões de dias aqui dentro -->
+    <div class="borda-segundaria linha-tempo-dias">
+        <!-- Gerado dinamicamente via JS -->
     </div>
+
+    <!-- ÁREA DOS AGENDAMENTOS: O JavaScript renderizará os agendamentos do dia ativo aqui dentro -->
+    <div id="container-lista-agendamentos">
+        <!-- Gerado dinamicamente via JS -->
+    </div>
+
     <footer>
-        <img src="css/imagens/logo.png" alt="Brothers Systems" >
+        <img src="css/imagens/logo.png" alt="Brothers Systems">
     </footer>
+
+    <!-- Arquivo de script responsável pela lógica e atualização dinâmica dos dados -->
+    <script src="js/controle_barbeiro.js"></script>
 </body>
 </html>
