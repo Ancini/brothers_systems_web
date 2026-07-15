@@ -1,52 +1,20 @@
 // 1. CONFIGURAÇÃO DO SUPABASE
+// Substitua pelas suas chaves reais do projeto
 const SUPABASE_URL = "https://hnaapsbkrokrkmnzayyr.supabase.co";
 const SUPABASE_KEY = "sb_publishable_AaxUlPsbivnRIu2_iu3Epg_nzr8w-3u";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let idBarbeiroReal = null;
-let nomeBarbeiroReal = "Barbeiro";
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
 
-    if (!usuarioLogado) {
-        alert("Acesso negado. Faça login para acessar o painel.");
-        window.location.href = "index.html"; 
-        return;
-    }
+// Puxa o usuário logado (usando o ID 53 do Gabriel que vi no seu print para teste)
+const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado")) || { id: 53, nome: "Gabriel Ancini" };
 
-    try {
-        // Se já tiver o id_banco salvo, usa ele. Caso contrário, busca na tabela 'usuario' pelo UUID ou E-mail
-        if (usuarioLogado.id_banco) {
-            idBarbeiroReal = usuarioLogado.id_banco;
-            nomeBarbeiroReal = usuarioLogado.nome || "Gabriel Eduardo Ancini";
-        } else {
-            const identificador = usuarioLogado.id || usuarioLogado.email;
-            const colunaBusca = typeof usuarioLogado.id === 'string' && usuarioLogado.id.length > 20 ? 'auth_id' : 'email';
-            
-            const { data: userDb, error } = await supabaseClient
-                .from('usuario')
-                .select('id_usuario, nome_usuario')
-                .eq(colunaBusca, identificador)
-                .single();
+document.addEventListener("DOMContentLoaded", () => {
+    // Atualiza o nome na interface
+    const elNomeBarbeiro = document.querySelector('.texto-barbeiro .titulo2');
+    if (elNomeBarbeiro) elNomeBarbeiro.textContent = usuarioLogado.nome;
 
-            if (error || !userDb) {
-                throw new Error("Não foi possível localizar o registro do barbeiro no banco.");
-            }
-
-            idBarbeiroReal = userDb.id_usuario;
-            nomeBarbeiroReal = userDb.nome_usuario;
-        }
-
-        // Atualiza o nome na interface
-        const elNomeBarbeiro = document.querySelector('.texto-barbeiro .titulo2');
-        if (elNomeBarbeiro) elNomeBarbeiro.textContent = nomeBarbeiroReal;
-
-        inicializarLinhaDoTempo();
-
-    } catch (err) {
-        console.error("Erro ao validar sessão do barbeiro:", err);
-    }
+    inicializarLinhaDoTempo();
 });
 
 // 2. GERA OS 4 DIAS DINAMICAMENTE
@@ -55,7 +23,7 @@ function inicializarLinhaDoTempo() {
     const diasSemana = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
     
     const containerDias = document.querySelector(".linha-tempo-dias");
-    containerDias.innerHTML = ""; 
+    containerDias.innerHTML = ""; // Limpa itens estáticos
 
     for (let i = 0; i < 4; i++) {
         const dataRef = new Date();
@@ -65,11 +33,13 @@ function inicializarLinhaDoTempo() {
         const mesStr = meses[dataRef.getMonth()];
         const diaSemanaStr = diasSemana[dataRef.getDay()];
         
+        // Formata a data para comparar com o banco (AAAA-MM-DD)
         const ano = dataRef.getFullYear();
         const mesZero = String(dataRef.getMonth() + 1).padStart(2, '0');
         const diaZero = String(diaNum).padStart(2, '0');
         const dataFormatadaBanco = `${ano}-${mesZero}-${diaZero}`;
 
+        // Cria o card de agendamento/dia do HTML original
         const cardDia = document.createElement("div");
         cardDia.className = `card agendamento ${i === 0 ? 'ativo' : ''}`;
         cardDia.style.cursor = "pointer";
@@ -82,6 +52,7 @@ function inicializarLinhaDoTempo() {
             </div>
         `;
 
+        // Evento de clique para mudar o dia ativo e recarregar dados
         cardDia.addEventListener("click", () => {
             document.querySelectorAll(".linha-tempo-dias .card.agendamento").forEach(card => {
                 card.classList.remove("ativo");
@@ -94,6 +65,8 @@ function inicializarLinhaDoTempo() {
         containerDias.appendChild(cardDia);
     }
 
+    // Carrega os dados de HOJE na primeira execução
+    // Mudança: Pega a data formatada localmente para evitar problemas de fuso horário com o ISOString
     const hoje = new Date();
     const dataFiltroHoje = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
     buscarAgendamentosDaAPI(dataFiltroHoje);
@@ -101,22 +74,27 @@ function inicializarLinhaDoTempo() {
 
 // 3. BUSCA OS AGENDAMENTOS NA VIEW (SUPABASE)
 async function buscarAgendamentosDaAPI(dataFiltro) {
-    if (!idBarbeiroReal) return;
-
     try {
         const { data: agendamentos, error } = await supabaseClient
             .from('vw_agenda_do_barbeiro')
             .select('*')
-            .eq('id_prestador', idBarbeiroReal) 
-            .eq('data_agendamento', dataFiltro)   
-            .order('horario_inicio', { ascending: true }); 
+            .eq('id_prestador', usuarioLogado.id) // Filtra pelo ID do barbeiro (53)
+            .eq('data_agendamento', dataFiltro)   // Filtra pela data clicada
+            .order('horario_inicio', { ascending: true }); // Já traz em ordem de horário do banco
 
         if (error) throw error;
 
+        // Atualiza o contador de agendamentos do topo
         atualizarContadorAgendamentos(agendamentos.length);
+
+        // Renderiza os cards na tela
         renderizarAgendamentos(agendamentos);
     } catch (error) {
         console.error("Erro ao buscar agendamentos do banco:", error);
+        console.error("Erro completo:", error);
+        if (error.message) console.error("Mensagem:", error.message);
+        if (error.details) console.error("Detalhes:", error.details);
+        if (error.hint) console.error("Dica do banco:", error.hint);
     }
 }
 
@@ -128,10 +106,11 @@ function atualizarContadorAgendamentos(quantidade) {
     }
 }
 
-// 5. FORMATA O HORÁRIO PARA 12H (AM/PM)
+// 5. FORMATA O HORÁRIO DE "17:00" PARA "05:00" E RETORNA "PM" OU "AM"
 function formatarHora12h(horarioStr) {
     if (!horarioStr) return { horaFormatada: "--:--", periodo: "" };
 
+    // Pega só os 5 primeiros caracteres (ex: "14:30:00" vira "14:30")
     const horarioLimpo = horarioStr.substring(0, 5); 
     const partes = horarioLimpo.split(":");
     let horas = parseInt(partes[0], 10);
@@ -140,7 +119,7 @@ function formatarHora12h(horarioStr) {
     const periodo = horas >= 12 ? "PM" : "AM";
     
     horas = horas % 12;
-    horas = horas ? horas : 12; 
+    horas = horas ? horas : 12; // A hora 0 deve ser 12
     const horasStr = String(horas).padStart(2, '0');
 
     return {
@@ -149,10 +128,10 @@ function formatarHora12h(horarioStr) {
     };
 }
 
-// 6. RENDERIZA OS CARDS DE AGENDAMENTO
+// 6. RENDERIZA OS CARDS
 function renderizarAgendamentos(listaAgendamentos) {
     const container = document.getElementById("container-lista-agendamentos");
-    container.innerHTML = ""; 
+    container.innerHTML = ""; // Limpa a lista antiga
 
     if (listaAgendamentos.length === 0) {
         container.innerHTML = `
@@ -164,16 +143,17 @@ function renderizarAgendamentos(listaAgendamentos) {
     }
 
     listaAgendamentos.forEach(item => {
+        // Usa os nomes das colunas da View: horario_inicio, nome_cliente, nome_servico
         const { horaFormatada, periodo } = formatarHora12h(item.horario_inicio);
         const nomeCliente = item.nome_cliente || "Cliente não informado";
         const nomeServico = item.nome_servico || "Serviço padrão";
 
         const blocoAgendamento = document.createElement("div");
         blocoAgendamento.className = "borda-mostrar-agendamentos";
-        blocoAgendamento.style.width = "100%"; 
+        blocoAgendamento.style.width = "100%"; // Garante que ocupe o espaço corretamente
 
         blocoAgendamento.innerHTML = `
-            <div class="card agendamentos_por_ordem" style="width: 100%; max-width: 400px; margin: 0 auto; position: relative;">
+            <div class="card agendamentos_por_ordem" style="width: 100%; max-width: 400px; margin: 0 auto;">
                 <span class="titulo1">Cliente</span>
                 <span class="titulo2">${nomeCliente}</span>
                 <span class="titulo3 mt-1">Serviço</span>
