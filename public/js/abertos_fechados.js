@@ -5,7 +5,7 @@ export async function buscarAbertos() {
     // A tabela correta é "estabelecimento"
     // Vamos filtrar pela coluna 'aberto' (ajuste se o nome for diferente no seu banco)
     const { data, error } = await supabase
-        .from("estabelecimento") 
+        .from("estabelicimento") 
         .select("*")
         .eq("aberto", true); 
 
@@ -19,7 +19,7 @@ export async function buscarAbertos() {
 // Busca os estabelecimentos fechados
 export async function buscarFechados() {
     const { data, error } = await supabase
-        .from("estabelecimento")
+        .from("estabelicimento")
         .select("*")
         .eq("aberto", false); // Ajuste se o nome da coluna for outro
 
