@@ -178,23 +178,28 @@
             window.location.href = "index.html";
         }
 
-        // 🔥 CONTROLE EXCLUSIVO PARA O PERFIL DE BARBEIRO
-        if (user) {
-            // Verifica a propriedade booleana salva no metadado ou direto no objeto user
-            const ehBarbeiro = user.barbeiro || user.user_metadata?.barbeiro || false;
+       // 🔥 CONTROLE EXCLUSIVO PARA O PERFIL DE BARBEIRO (ATUALIZADO)
+if (user) {
+    // 1. Checa se o campo se chama 'barbeiro' direto no objeto, 
+    // ou dentro de 'user_metadata' (dependendo de como você salvou no login)
+    const ehBarbeiro = user.barbeiro || user.user_metadata?.barbeiro || false;
+    
+    console.log("Dados do usuário logado:", user); // Para você inspecionar no F12 do navegador
+    console.log("Status do campo barbeiro:", ehBarbeiro);
+
+    // Como o campo pode vir como booleano (true) ou como string ("true" ou "s"), tratamos as possibilidades:
+    if (ehBarbeiro === true || ehBarbeiro === "true" || ehBarbeiro === "s") {
+        const cardAcessoBarbeiro = document.getElementById('cardAcessoBarbeiro');
+        if (cardAcessoBarbeiro) {
+            cardAcessoBarbeiro.style.display = 'flex'; // Exibe o card vermelho
             
-            if (ehBarbeiro === true) {
-                const cardAcessoBarbeiro = document.getElementById('cardAcessoBarbeiro');
-                if (cardAcessoBarbeiro) {
-                    cardAcessoBarbeiro.style.display = 'flex'; // Exibe o card para o barbeiro
-                    
-                    // Ação de clique para mudar de página
-                    cardAcessoBarbeiro.onclick = () => {
-                        window.location.href = "menu_inicial_barbeiro.html";
-                    };
-                }
-            }
+            // Ação de clique para mudar de página
+            cardAcessoBarbeiro.onclick = () => {
+                window.location.href = "menu_inicial_barbeiro.html";
+            };
         }
+    }
+}
 
         // Atualizar o nome do cliente no header
         const nomeClienteSpan = document.querySelector('.cliente-info .nome');

@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/x-icon" href="css/imagens/2.ico">
 
-  <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
@@ -18,12 +17,10 @@
 <div class="container-login">
   <div class="form-wrapper">
 
-    <!-- LOGO -->
     <div class="logo_pagina">
       <img src="css/imagens/logo.png" alt="logo">
     </div>
 
-    <!-- FORM -->
     <form id="formLogin" class="formulario_entrar">
 
       <div class="input-container">
@@ -75,21 +72,41 @@
   // Verificar se já está logado (MAS NÃO REDIRECIONA AUTOMATICAMENTE)
   const usuarioExistente = pegarSessao();
   if (usuarioExistente) {
-    // Mostra mensagem e redireciona
     alert("✅ Você já está logado! Redirecionando...");
     window.location.href = "menu_cliente.html";
   }
 
-  // Função de login
+  // 🔥 Função de login ATUALIZADA com a busca do campo 'barbeiro'
   async function fazerLogin(email, password) {
     try {
-      const { data, error } = await supabaseClient.auth.signInWithPassword({
+      // 1. Faz o login na autenticação padrão do Supabase
+      const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
         email: email,
         password: password
       });
 
-      if (error) throw error;
-      return { success: true, user: data.user };
+      if (authError) throw authError;
+
+      // 2. Busca na sua tabela customizada 'usuario' para trazer a coluna 'barbeiro'
+      const { data: dadosUsuario, error: dbError } = await supabaseClient
+        .from('usuario') 
+        .select('barbeiro')
+        .eq('id', authData.user.id) // Vincula pelo ID gerado na autenticação
+        .single();
+
+      if (dbError) {
+        console.warn("Aviso: Não foi possível buscar o perfil na tabela usuario:", dbError.message);
+      }
+
+      // 3. Mescla o objeto criando a propriedade 'barbeiro' no objeto final
+      const usuarioCompleto = {
+        ...authData.user,
+        barbeiro: dadosUsuario ? dadosUsuario.barbeiro : false
+      };
+
+      // Retorna o usuário já com a flag do barbeiro
+      return { success: true, user: usuarioCompleto };
+
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -111,7 +128,7 @@
     
     if (result.success) {
       alert("✅ Login realizado com sucesso!");
-      salvarSessao(result.user);
+      salvarSessao(result.user); // Agora salva no navegador com o barbeiro: true/false!
       window.location.href = "menu_cliente.html";
     } else {
       alert("❌ Erro: " + result.error);

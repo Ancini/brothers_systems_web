@@ -20,7 +20,47 @@ export function logout() {
 }
 
 /* ==========================================
-   NOVA FUNÇÃO: VERIFICAÇÃO DE PERFIL E ROTA
+   NOVA FUNÇÃO: LOGIN COM BUSCA DE PERFIL
+   ========================================== */
+export async function efetuarLogin(email, senha) {
+    try {
+        // 1. Faz o login no sistema de autenticação do Supabase
+        const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: senha
+        });
+
+        if (authError) throw authError;
+
+        // 2. Busca a sua tabela customizada 'usuario' para trazer o campo 'barbeiro'
+        const { data: dadosUsuario, error: dbError } = await supabaseClient
+            .from('usuario') 
+            .select('barbeiro')
+            .eq('id', authData.user.id) // Vincula pelo ID gerado na autenticação
+            .single();
+
+        if (dbError) {
+            console.warn("Aviso: Não foi possível buscar o perfil na tabela usuario:", dbError.message);
+        }
+
+        // 3. Mescla o objeto criando a propriedade 'barbeiro' no objeto final
+        const usuarioCompleto = {
+            ...authData.user,
+            barbeiro: dadosUsuario ? dadosUsuario.barbeiro : false
+        };
+
+        // 4. Salva no localStorage com o dado atualizado do banco!
+        salvarSessao(usuarioCompleto);
+
+        return { sucesso: true, usuario: usuarioCompleto };
+
+    } catch (error) {
+        return { sucesso: false, erro: error.message };
+    }
+}
+
+/* ==========================================
+   VERIFICAÇÃO DE PERFIL E ROTA
    ========================================== */
 
 /**
@@ -35,15 +75,15 @@ export function verificarFluxoUsuario() {
       return "login.html"; // Se não tiver sessão, manda pro login
   }
 
-  // Verifica a flag booleana que você criou/vai alterar no banco
-  if (usuario.barbeiro === true) {
-      console.log(`O usuário ${usuario.nome} é um barbeiro ativo.`);
+  // Verifica a flag booleana que veio do banco
+  if (usuario.barbeiro === true || usuario.barbeiro === "true" || usuario.barbeiro === "s") {
+      console.log(`O usuário é um barbeiro ativo.`);
       
       // Retorna um objeto indicando que ele tem acesso especial
       return {
           eBarbeiro: true,
-          telaInicial: "home_cliente.html", // Ele entra na tela comum do cliente...
-          exibirBotaoPainel: true           // ...mas o sistema sabe que deve mostrar o botão extra!
+          telaInicial: "home_cliente.html", 
+          exibirBotaoPainel: true           
       };
   }
 
