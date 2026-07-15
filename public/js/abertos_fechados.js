@@ -1,31 +1,35 @@
 import { supabase } from "./supabase.js";
 
-// Busca os estabelecimentos abertos
-export async function buscarAbertos() {
-    // A tabela correta é "estabelecimento"
-    // Vamos filtrar pela coluna 'aberto' (ajuste se o nome for diferente no seu banco)
-    const { data, error } = await supabase
-        .from("estabelicimento") 
-        .select("*")
-        .eq("aberto", true); 
+// Função para calcular se o estabelecimento está aberto agora
+function estaAberto(horarioAbertura, horarioFechamento) {
+    if (!horarioAbertura || !horarioFechamento) return false;
 
-    if (error) {
-        console.error("Erro ao buscar abertos:", error);
-        return [];
-    }
-    return data;
+    const agora = new Date();
+    const horaAtual = agora.getHours() * 60 + agora.getMinutes(); 
+
+    const [hA, mA] = horarioAbertura.split(':').map(Number);
+    const [hF, mF] = horarioFechamento.split(':').map(Number);
+    
+    const minAbertura = hA * 60 + mA;
+    const minFechamento = hF * 60 + mF;
+
+    return horaAtual >= minAbertura && horaAtual < minFechamento;
 }
 
-// Busca os estabelecimentos fechados
-export async function buscarFechados() {
+// Busca todos e filtra no JavaScript
+export async function buscarEstabelecimentos() {
     const { data, error } = await supabase
-        .from("estabelicimento")
-        .select("*")
-        .eq("aberto", false); // Ajuste se o nome da coluna for outro
+        .from("estabelicimento") 
+        .select("*");
 
     if (error) {
-        console.error("Erro ao buscar fechados:", error);
-        return [];
+        console.error("Erro ao buscar estabelecimentos:", error);
+        return { abertos: [], fechados: [] };
     }
-    return data;
+
+    // Filtra baseando-se na função criada acima
+    const abertos = data.filter(e => estaAberto(e.horario_abertura, e.horario_fechamento));
+    const fechados = data.filter(e => !estaAberto(e.horario_abertura, e.horario_fechamento));
+
+    return { abertos, fechados };
 }

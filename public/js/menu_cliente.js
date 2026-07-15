@@ -1,17 +1,9 @@
-/*const supabaseClient = supabase.createClient(
-    "https://hnaapsbkrokrkmnzayyr.supabase.co",
-    "sb_publishable_AaxUlPsbivnRIu2_iu3Epg_nzr8w-3u"
-); */
-
-import {
-    buscarAbertos,
-    buscarFechados
-} from "./abertos_fechados.js";
+import { buscarEstabelecimentos } from "./abertos_fechados.js";
 
 async function inicializarEstabelecimentos() {
     try {
-        const abertos = await buscarAbertos();
-        const fechados = await buscarFechados();
+        // Agora buscamos tudo de uma vez
+        const { abertos, fechados } = await buscarEstabelecimentos();
 
         renderizar(abertos, "abertos");
         renderizar(fechados, "fechados");
@@ -40,9 +32,8 @@ function renderizar(lista, containerId) {
     }
 
     lista.forEach(est => {
-        // Assegura caminhos válidos para as imagens vindas da view
         const imagem = est.imagem_estab;
-        const nome = est.nome_estabelicimento;
+        const nome = est.nome_estabelecimento; // 🔥 CORREÇÃO: Corrigi o nome da propriedade
 
         container.innerHTML += `
             <div class="estabelecimento-item">
@@ -58,4 +49,7 @@ function renderizar(lista, containerId) {
 }
 
 // Dispara a busca automaticamente
-await inicializarEstabelecimentos();
+inicializarEstabelecimentos();
+
+
+
