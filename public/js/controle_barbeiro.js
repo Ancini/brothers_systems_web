@@ -1,8 +1,9 @@
 // 1. CONFIGURAÇÃO DO SUPABASE
 // Substitua pelas suas chaves reais do projeto
-const SUPABASE_URL = "https://SEU_URL.supabase.co";
-const SUPABASE_KEY = "SUA_CHAVE_PUBLICA";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(
+    "https://hnaapsbkrokrkmnzayyr.supabase.co",
+    "sb_publishable_AaxUlPsbivnRIu2_iu3Epg_nzr8w-3u"
+);
 
 // Puxa o usuário logado (usando o ID 53 do Gabriel que vi no seu print para teste)
 const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado")) || { id: 53, nome: "Gabriel Ancini" };
