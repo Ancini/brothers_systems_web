@@ -1,13 +1,23 @@
-// Nome do barbeiro logado (pode ser recuperado dinamicamente do seu sistema futuramente)
-const BARBEIRO_LOGADO = "Gabriel Eduardo Ancini"; 
+// 1. CONFIGURAÇÃO DO SUPABASE
+// Substitua pelas suas chaves reais do projeto
+const SUPABASE_URL = "https://SEU_URL.supabase.co";
+const SUPABASE_KEY = "SUA_CHAVE_PUBLICA";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Puxa o usuário logado (usando o ID 53 do Gabriel que vi no seu print para teste)
+const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado")) || { id: 53, nome: "Gabriel Ancini" };
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Atualiza o nome na interface
+    const elNomeBarbeiro = document.querySelector('.texto-barbeiro .titulo2');
+    if (elNomeBarbeiro) elNomeBarbeiro.textContent = usuarioLogado.nome;
+
     inicializarLinhaDoTempo();
 });
 
-// 1. GERA OS 4 DIAS DINAMICAMENTE
+// 2. GERA OS 4 DIAS DINAMICAMENTE
 function inicializarLinhaDoTempo() {
-    const meses = ["JAN", "FEB", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"];
+    const meses = ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"];
     const diasSemana = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
     
     const containerDias = document.querySelector(".linha-tempo-dias");
@@ -54,16 +64,23 @@ function inicializarLinhaDoTempo() {
     }
 
     // Carrega os dados de HOJE na primeira execução
-    const hojeFormatado = new Date().toISOString().split('T')[0];
-    buscarAgendamentosDaAPI(hojeFormatado);
+    // Mudança: Pega a data formatada localmente para evitar problemas de fuso horário com o ISOString
+    const hoje = new Date();
+    const dataFiltroHoje = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
+    buscarAgendamentosDaAPI(dataFiltroHoje);
 }
 
-// 2. BUSCA OS AGENDAMENTOS NA VIEW (ATRAVÉS DA SUA API)
+// 3. BUSCA OS AGENDAMENTOS NA VIEW (SUPABASE)
 async function buscarAgendamentosDaAPI(dataFiltro) {
     try {
-        // Substitua pela rota real da sua API que lê a view 'agendamentos_barbeiro'
-        const response = await fetch(`/api/agendamentos?barbeiro=${encodeURIComponent(BARBEIRO_LOGADO)}&data=${dataFiltro}`);
-        const agendamentos = await response.json();
+        const { data: agendamentos, error } = await supabaseClient
+            .from('vw_agenda_do_barbeiro')
+            .select('*')
+            .eq('id_prestador', usuarioLogado.id) // Filtra pelo ID do barbeiro (53)
+            .eq('data_agendamento', dataFiltro)   // Filtra pela data clicada
+            .order('horario_inicio', { ascending: true }); // Já traz em ordem de horário do banco
+
+        if (error) throw error;
 
         // Atualiza o contador de agendamentos do topo
         atualizarContadorAgendamentos(agendamentos.length);
@@ -75,7 +92,7 @@ async function buscarAgendamentosDaAPI(dataFiltro) {
     }
 }
 
-// 3. ATUALIZA O CARD DE CONTATEM DO TOPO (VERMELHO)
+// 4. ATUALIZA O CARD DE CONTAGEM DO TOPO (VERMELHO)
 function atualizarContadorAgendamentos(quantidade) {
     const cardContador = document.querySelector(".total_agendamentos .titulo2");
     if (cardContador) {
@@ -83,10 +100,13 @@ function atualizarContadorAgendamentos(quantidade) {
     }
 }
 
-// 4. FORMATA O HORÁRIO DE "17:00" PARA "05:00" E RETORNA "PM" OU "AM"
+// 5. FORMATA O HORÁRIO DE "17:00" PARA "05:00" E RETORNA "PM" OU "AM"
 function formatarHora12h(horarioStr) {
-    // Separa horas e minutos de formatos como "17:00" ou "09:30"
-    const partes = horarioStr.split(":");
+    if (!horarioStr) return { horaFormatada: "--:--", periodo: "" };
+
+    // Pega só os 5 primeiros caracteres (ex: "14:30:00" vira "14:30")
+    const horarioLimpo = horarioStr.substring(0, 5); 
+    const partes = horarioLimpo.split(":");
     let horas = parseInt(partes[0], 10);
     const minutos = partes[1];
     
@@ -102,7 +122,7 @@ function formatarHora12h(horarioStr) {
     };
 }
 
-// 5. RENDERIZA OS CARDS EM ORDEM DE HORÁRIO
+// 6. RENDERIZA OS CARDS
 function renderizarAgendamentos(listaAgendamentos) {
     const container = document.getElementById("container-lista-agendamentos");
     container.innerHTML = ""; // Limpa a lista antiga
@@ -116,24 +136,27 @@ function renderizarAgendamentos(listaAgendamentos) {
         return;
     }
 
-    // Ordena por horário crescente
-    listaAgendamentos.sort((a, b) => a.horario.localeCompare(b.horario));
-
     listaAgendamentos.forEach(item => {
-        const { horaFormatada, periodo } = formatarHora12h(item.horario);
+        // Usa os nomes das colunas da View: horario_inicio, nome_cliente, nome_servico
+        const { horaFormatada, periodo } = formatarHora12h(item.horario_inicio);
+        const nomeCliente = item.nome_cliente || "Cliente não informado";
+        const nomeServico = item.nome_servico || "Serviço padrão";
 
         const blocoAgendamento = document.createElement("div");
         blocoAgendamento.className = "borda-mostrar-agendamentos";
+        blocoAgendamento.style.width = "100%"; // Garante que ocupe o espaço corretamente
 
         blocoAgendamento.innerHTML = `
-            <div class="card agendamentos_por_ordem">
-                <div class="texto-agendamento_ordem"></div>
+            <div class="card agendamentos_por_ordem" style="width: 100%; max-width: 400px; margin: 0 auto;">
                 <span class="titulo1">Cliente</span>
-                <span class="titulo2">${item.cliente}</span>
-                <span class="titulo3">Serviço</span>
-                <span class="titulo4">${item.servico}</span>
-                <span class="titulo5">${periodo}</span>
-                <span class="titulo5">${horaFormatada}</span>
+                <span class="titulo2">${nomeCliente}</span>
+                <span class="titulo3 mt-1">Serviço</span>
+                <span class="titulo4">${nomeServico}</span>
+                
+                <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center;">
+                    <span class="titulo5" style="margin: 0; font-size: 32px; font-weight: 900; line-height: 1;">${horaFormatada}</span>
+                    <span style="font-size: 20px; font-weight: 900;">${periodo}</span>
+                </div>
             </div>
         `;
 
