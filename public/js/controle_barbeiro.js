@@ -91,6 +91,10 @@ async function buscarAgendamentosDaAPI(dataFiltro) {
         renderizarAgendamentos(agendamentos);
     } catch (error) {
         console.error("Erro ao buscar agendamentos do banco:", error);
+        console.error("Erro completo:", error);
+        if (error.message) console.error("Mensagem:", error.message);
+        if (error.details) console.error("Detalhes:", error.details);
+        if (error.hint) console.error("Dica do banco:", error.hint);
     }
 }
 
