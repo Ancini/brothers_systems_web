@@ -1,12 +1,13 @@
 import { supabase } from "./supabase.js";
 
-// Busca os estabelecimentos na tabela correta
+// Busca os estabelecimentos abertos
 export async function buscarAbertos() {
-    // Busca onde a coluna 'aberto' (ou o nome que você deu ao campo de status) é true
+    // A tabela correta é "estabelecimento"
+    // Vamos filtrar pela coluna 'aberto' (ajuste se o nome for diferente no seu banco)
     const { data, error } = await supabase
         .from("estabelecimento") 
         .select("*")
-        .eq("aberto", true); // Ajuste o nome da coluna se for diferente
+        .eq("aberto", true); 
 
     if (error) {
         console.error("Erro ao buscar abertos:", error);
@@ -15,12 +16,12 @@ export async function buscarAbertos() {
     return data;
 }
 
+// Busca os estabelecimentos fechados
 export async function buscarFechados() {
-    // Busca onde a coluna 'aberto' é false
     const { data, error } = await supabase
         .from("estabelecimento")
         .select("*")
-        .eq("aberto", false);
+        .eq("aberto", false); // Ajuste se o nome da coluna for outro
 
     if (error) {
         console.error("Erro ao buscar fechados:", error);
