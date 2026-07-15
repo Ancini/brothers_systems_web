@@ -76,7 +76,7 @@
     window.location.href = "menu_cliente.html";
   }
 
-  // 🔥 Função de login ATUALIZADA com a busca do campo 'barbeiro'
+  // 🔥 Função de login ATUALIZADA com a busca pela coluna correta: 'auth_id'
   async function fazerLogin(email, password) {
     try {
       // 1. Faz o login na autenticação padrão do Supabase
@@ -87,24 +87,25 @@
 
       if (authError) throw authError;
 
-      // 2. Busca na sua tabela customizada 'usuario' para trazer a coluna 'barbeiro'
+      // 2. Busca na sua tabela customizada 'usuario' usando a coluna de ligação 'auth_id'
       const { data: dadosUsuario, error: dbError } = await supabaseClient
         .from('usuario') 
-        .select('barbeiro')
-        .eq('id', authData.user.id) // Vincula pelo ID gerado na autenticação
+        .select('barbeiro, nome_usuario')
+        .eq('auth_id', authData.user.id) // 🔥 CORREÇÃO: antes estava 'id', agora é 'auth_id'
         .single();
 
       if (dbError) {
         console.warn("Aviso: Não foi possível buscar o perfil na tabela usuario:", dbError.message);
       }
 
-      // 3. Mescla o objeto criando a propriedade 'barbeiro' no objeto final
+      // 3. Mescla o objeto criando as propriedades 'barbeiro' e 'nome' no objeto final
       const usuarioCompleto = {
         ...authData.user,
-        barbeiro: dadosUsuario ? dadosUsuario.barbeiro : false
+        barbeiro: dadosUsuario ? dadosUsuario.barbeiro : false,
+        nome: dadosUsuario ? dadosUsuario.nome_usuario : "Cliente"
       };
 
-      // Retorna o usuário já com a flag do barbeiro
+      // Retorna o usuário já com as flags atualizadas do banco de dados
       return { success: true, user: usuarioCompleto };
 
     } catch (error) {
@@ -128,7 +129,7 @@
     
     if (result.success) {
       alert("✅ Login realizado com sucesso!");
-      salvarSessao(result.user); // Agora salva no navegador com o barbeiro: true/false!
+      salvarSessao(result.user); // Agora salva no navegador com as informações completas
       window.location.href = "menu_cliente.html";
     } else {
       alert("❌ Erro: " + result.error);
