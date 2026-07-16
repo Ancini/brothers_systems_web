@@ -46,7 +46,7 @@ function inicializarLinhaDoTempo() {
         cardDia.innerHTML = `
             <div class="texto-dia">
                 <span class="titulo1">${dataRef.getDate()} DE ${["JAN","FEV","MAR","ABR","MAI","JUN","JUL","AGO","SET","OUT","NOV","DEZ"][dataRef.getMonth()]}</span>
-                <span class="titulo2">${["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"][dataRef.getDay()]}</span>
+                <span class="titulo2">${["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"][dataRef.getDay()]}</span>
             </div>
         `;
 
