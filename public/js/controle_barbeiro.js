@@ -97,18 +97,26 @@ function renderizarAgendamentos(agendamentos) {
     const container = document.getElementById("container-lista-agendamentos");
     if (!container) return;
 
-    container.innerHTML = "";
+    container.innerHTML = ""; // Limpa a lista
+
     agendamentos.forEach(ag => {
         const card = document.createElement("div");
-        card.className = "card agendamentos_por_ordem"; // Usando a classe que já tem estilo no CSS
+        card.className = "card agendamentos_por_ordem";
+        card.style.position = "relative"; // Garante que o horário fique posicionado corretamente
+
+        // Note como usamos <div> para separar as linhas
         card.innerHTML = `
-            <div class="texto-agendamento">
-                <span class="titulo1">Cliente</span>
-                <span class="titulo2">${ag.nome_cliente}</span>
-                <span class="titulo1" style="margin-top: 10px;">Serviço</span>
-                <span class="titulo2">${ag.nome_servico}</span>
+            <div style="display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                <div class="titulo1" style="font-size: 14px;">Cliente</div>
+                <div class="titulo2" style="font-size: 22px; margin-bottom: 10px;">${ag.nome_cliente}</div>
+                
+                <div class="titulo1" style="font-size: 14px;">Serviço</div>
+                <div class="titulo2" style="font-size: 22px;">${ag.nome_servico}</div>
             </div>
-            <span class="titulo5">${ag.horario_inicio ? ag.horario_inicio.substring(0, 5) : '--:--'}</span>
+            
+            <div class="titulo5" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 40px;">
+                ${ag.horario_inicio ? ag.horario_inicio.substring(0, 5) : '--:--'}
+            </div>
         `;
         container.appendChild(card);
     });
