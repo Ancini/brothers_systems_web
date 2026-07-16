@@ -293,3 +293,43 @@ body {
         grid-template-columns: repeat(4, 1fr);
     }
 }
+
+.barbeiro-acesso-card {
+    display: flex;
+    justify-content: space-between; /* Empurra o conteúdo para as extremidades */
+    align-items: center;            /* Alinha tudo verticalmente no centro */
+    background-color: rgb(228, 34, 34); /* Cor vermelha do seu print */
+    padding: 15px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    color: white;
+    margin: 10px 0;
+}
+
+.barbeiro-acesso-card:hover {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+}
+
+.barbeiro-left {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaço entre o ícone e o texto */
+}
+
+.barbeiro-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.barbeiro-titulo {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.barbeiro-link {
+    font-weight: 500;
+    white-space: nowrap; /* Impede que o texto "Ver meus agendamentos" quebre de linha */
+    margin-left: 20px;
+}
