@@ -168,7 +168,7 @@ a {
 .agendamentos_por_ordem {
     border-radius: 10px;
     background-color: #1e90ff;
-    width: 99%;          /* Ocupa quase toda a largura */
+    width: 98%;          /* Ocupa quase toda a largura */
     max-width: 99%;   /* Aumente este valor para ficar mais largo */
     margin: 10px auto;
     height: 120px;
