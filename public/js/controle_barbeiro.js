@@ -9,14 +9,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 1. Identifica quem é o barbeiro primeiro
     const sucesso = await inicializarIdentidadeBarbeiro();
     
+    
     // 2. Só inicializa a interface se a identidade for confirmada
     if (sucesso) {
         inicializarLinhaDoTempo();
     } else {
         console.error("Não foi possível identificar o barbeiro. Verifique o login ou o vínculo no banco.");
+        
     }
 });
 
+// FUNÇÃO DA PONTE
 // FUNÇÃO DA PONTE
 async function inicializarIdentidadeBarbeiro() {
     const { data: { user } } = await supabaseClient.auth.getUser();
@@ -25,6 +28,9 @@ async function inicializarIdentidadeBarbeiro() {
         console.warn("Usuário não está logado.");
         return false;
     }
+
+    // AGORA O LOG VAI FUNCIONAR:
+    console.log("Tentando buscar vínculo com este UUID do usuário logado:", user.id);
 
     const { data: vinculo, error } = await supabaseClient
         .from('prestador')
@@ -39,7 +45,7 @@ async function inicializarIdentidadeBarbeiro() {
     
     if (vinculo && vinculo.length > 0) {
         idBarbeiroLogado = vinculo[0].id_prestador;
-        console.log("Barbeiro logado com sucesso. ID:", idBarbeiroLogado);
+        console.log("Barbeiro encontrado com sucesso! ID no banco:", idBarbeiroLogado);
         return true;
     } else {
         console.warn("Nenhum prestador vinculado a este usuário.");
