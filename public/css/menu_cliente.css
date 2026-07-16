@@ -296,17 +296,19 @@ body {
 
 .barbeiro-acesso-card {
     display: flex;
-    justify-content: space-between; /* Empurra o conteúdo para as extremidades */
-    width: 90%;
-    max-width: 95%;
-    align-items: center;            /* Alinha tudo verticalmente no centro */
-    background-color: rgb(228, 34, 34); /* Cor vermelha do seu print */
+    justify-content: space-between; 
+    align-items: center;
+    background-color: rgb(228, 34, 34);
     padding: 15px 20px;
     border-radius: 15px;
     cursor: pointer;
     transition: transform 0.2s;
     color: white;
-    margin: 10px 0;
+    
+    /* MUDANÇAS PARA ALINHAR TUDO */
+    width: calc(100% - 30px); /* Garante que respeite as margens de 15px dos outros cards */
+    max-width: 570px;         /* Ajustado para caber no seu container de 600px */
+    margin: 10px auto;        /* O "auto" centraliza o bloco na tela */
 }
 
 .barbeiro-acesso-card:hover {
