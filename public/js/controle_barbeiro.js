@@ -18,20 +18,22 @@ async function inicializarIdentidadeBarbeiro() {
     const { data: { user } } = await supabaseClient.auth.getUser();
     
     if (!user) {
-        window.location.href = "login.html"; // Redireciona se não estiver logado
+        window.location.href = "login.html";
         return;
     }
 
+    // A tabela se chama 'prestador'
+    // A coluna que liga ao auth se chama 'id_cadastro_prestador'
     const { data: vinculo, error } = await supabaseClient
-        .from('cadastro_prestador')
+        .from('prestador') 
         .select('id_prestador')
-        .eq('id_cadastro_prestador', user.id) // Busca pelo UUID do Auth
+        .eq('id_cadastro_prestador', user.id) 
         .single();
 
     if (error || !vinculo) {
         console.error("Erro ao vincular identidade do barbeiro:", error);
     } else {
-        idBarbeiroLogado = vinculo.id_prestador; // Guarda o número (ex: 53)
+        idBarbeiroLogado = vinculo.id_prestador;
     }
 }
 
