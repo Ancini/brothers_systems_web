@@ -337,3 +337,8 @@ body {
     white-space: nowrap; /* Impede que o texto "Ver meus agendamentos" quebre de linha */
     margin-left: 20px;
 }
+
+.icone {
+    width: 48px;
+    height: auto;
+}
