@@ -1,9 +1,10 @@
-import { buscarEstabelecimentos } from "./abertos_fechados.js";
+import { buscarAbertos, buscarFechados } from "./abertos_fechados.js";
 
 async function inicializarEstabelecimentos() {
     try {
-        // Agora buscamos tudo de uma vez
-        const { abertos, fechados } = await buscarEstabelecimentos();
+        // Agora buscamos das duas funções separadas (que consultam as nossas Views no Supabase)
+        const abertos = await buscarAbertos();
+        const fechados = await buscarFechados();
 
         renderizar(abertos, "abertos");
         renderizar(fechados, "fechados");
@@ -33,7 +34,10 @@ function renderizar(lista, containerId) {
 
     lista.forEach(est => {
         const imagem = est.imagem_estab;
-        const nome = est.nome_estabelecimento; // 🔥 CORREÇÃO: Corrigi o nome da propriedade
+        
+        // 🔥 TRAVA DE SEGURANÇA: 
+        // Se no banco estiver 'estabelecimento' (certo) ou 'estabelicimento' (com i), ele pega o que tiver!
+        const nome = est.nome_estabelecimento || est.nome_estabelicimento; 
 
         container.innerHTML += `
             <div class="estabelecimento-item">
@@ -50,6 +54,3 @@ function renderizar(lista, containerId) {
 
 // Dispara a busca automaticamente
 inicializarEstabelecimentos();
-
-
-

@@ -1,35 +1,27 @@
 import { supabase } from "./supabase.js";
 
-// Função para calcular se o estabelecimento está aberto agora
-function estaAberto(horarioAbertura, horarioFechamento) {
-    if (!horarioAbertura || !horarioFechamento) return false;
-
-    const agora = new Date();
-    const horaAtual = agora.getHours() * 60 + agora.getMinutes(); 
-
-    const [hA, mA] = horarioAbertura.split(':').map(Number);
-    const [hF, mF] = horarioFechamento.split(':').map(Number);
-    
-    const minAbertura = hA * 60 + mA;
-    const minFechamento = hF * 60 + mF;
-
-    return horaAtual >= minAbertura && horaAtual < minFechamento;
-}
-
-// Busca todos e filtra no JavaScript
-export async function buscarEstabelecimentos() {
+// Busca quem está aberto direto da View
+export async function buscarAbertos() {
     const { data, error } = await supabase
-        .from("estabelicimento") 
+        .from("vw_estabelecimentos_abertos")
         .select("*");
 
     if (error) {
-        console.error("Erro ao buscar estabelecimentos:", error);
-        return { abertos: [], fechados: [] };
+        console.error("Erro ao buscar abertos:", error);
+        return [];
     }
+    return data;
+}
 
-    // Filtra baseando-se na função criada acima
-    const abertos = data.filter(e => estaAberto(e.horario_abertura, e.horario_fechamento));
-    const fechados = data.filter(e => !estaAberto(e.horario_abertura, e.horario_fechamento));
+// Busca quem está fechado direto da View
+export async function buscarFechados() {
+    const { data, error } = await supabase
+        .from("vw_estabelecimentos_fechados")
+        .select("*");
 
-    return { abertos, fechados };
+    if (error) {
+        console.error("Erro ao buscar fechados:", error);
+        return [];
+    }
+    return data;
 }
