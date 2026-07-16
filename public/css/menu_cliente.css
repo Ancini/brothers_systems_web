@@ -121,7 +121,7 @@ body {
 /* Ranking */
 .ranking-card {
     margin: 0 15px 15px 15px;
-    background-color: blue;
+    background-color: rgba(148, 150, 13, 1);
     border-radius: 15px;
     padding: 15px 18px;
     display: flex;
