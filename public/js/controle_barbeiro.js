@@ -96,25 +96,20 @@ function atualizarContadorAgendamentos(total) {
 function renderizarAgendamentos(agendamentos) {
     const container = document.getElementById("container-lista-agendamentos");
     if (!container) return;
-
-    container.innerHTML = ""; // Limpa a lista
+    container.innerHTML = "";
 
     agendamentos.forEach(ag => {
         const card = document.createElement("div");
         card.className = "card agendamentos_por_ordem";
-        card.style.position = "relative"; // Garante que o horário fique posicionado corretamente
-
-        // Note como usamos <div> para separar as linhas
+        
         card.innerHTML = `
-            <div style="display: flex; flex-direction: column; justify-content: center; height: 100%;">
-                <div class="titulo1" style="font-size: 14px;">Cliente</div>
-                <div class="titulo2" style="font-size: 22px; margin-bottom: 10px;">${ag.nome_cliente}</div>
-                
-                <div class="titulo1" style="font-size: 14px;">Serviço</div>
-                <div class="titulo2" style="font-size: 22px;">${ag.nome_servico}</div>
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <span class="titulo1">Cliente</span>
+                <span class="titulo2" style="font-size: 24px; font-weight: bold;">${ag.nome_cliente}</span>
+                <span class="titulo1" style="margin-top: 5px;">Serviço</span>
+                <span class="titulo2" style="font-size: 24px; font-weight: bold;">${ag.nome_servico}</span>
             </div>
-            
-            <div class="titulo5" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 40px;">
+            <div style="position: absolute; right: 30px; top: 50%; transform: translateY(-50%); font-size: 45px; font-family: Georgia, serif;">
                 ${ag.horario_inicio ? ag.horario_inicio.substring(0, 5) : '--:--'}
             </div>
         `;
