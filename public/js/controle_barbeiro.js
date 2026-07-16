@@ -103,7 +103,7 @@ function renderizarAgendamentos(agendamentos) {
         card.className = "card agendamentos_por_ordem";
         
         card.innerHTML = `
-            <div style="display: flex; flex-direction: column; justify-content: center;">
+            <div style="display: flex; flex-direction: column; justify-content: start;">
                 <span class="titulo1">Cliente</span>
                 <span class="titulo2" style="font-size: 24px; font-weight: bold;">${ag.nome_cliente}</span>
                 <span class="titulo1" style="margin-top: 5px;">Serviço</span>
