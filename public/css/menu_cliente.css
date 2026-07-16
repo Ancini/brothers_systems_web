@@ -297,6 +297,8 @@ body {
 .barbeiro-acesso-card {
     display: flex;
     justify-content: space-between; /* Empurra o conteúdo para as extremidades */
+    width: 50%;
+    max-width: 60%;
     align-items: center;            /* Alinha tudo verticalmente no centro */
     background-color: rgb(228, 34, 34); /* Cor vermelha do seu print */
     padding: 15px 20px;
