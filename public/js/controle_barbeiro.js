@@ -89,26 +89,42 @@ function inicializarLinhaDoTempo() {
     buscarAgendamentosDaAPI(new Date().toISOString().split('T')[0]);
 }
 
-// 3. BUSCA OS AGENDAMENTOS
+// 3. BUSCA OS AGENDAMENTOS NA VIEW
 async function buscarAgendamentosDaAPI(dataFiltro) {
-    if (!idBarbeiroLogado) return;
+    if (!idBarbeiroLogado) {
+        console.warn("Ainda carregando identidade do barbeiro...");
+        return;
+    }
+
+    // Criamos o intervalo para garantir que pegamos o dia inteiro (de 00:00 até 23:59:59)
+    // Isso evita problemas se a coluna tiver horas escondidas
+    const dataInicio = `${dataFiltro}T00:00:00`;
+    
+    // Calcula o dia seguinte para o limite do filtro
+    const date = new Date(dataFiltro);
+    date.setDate(date.getDate() + 1);
+    const dataFim = date.toISOString().split('T')[0] + 'T00:00:00';
 
     try {
+        console.log(`Buscando: Prestador ${idBarbeiroLogado} entre ${dataInicio} e ${dataFim}`);
+
         const { data: agendamentos, error } = await supabaseClient
             .from('vw_agenda_do_barbeiro')
             .select('*')
             .eq('id_prestador', idBarbeiroLogado)
-            .eq('data_agendamento', dataFiltro) 
+            .gte('data_agendamento', dataInicio) // Filtra >= início do dia
+            .lt('data_agendamento', dataFim)     // Filtra < início do próximo dia
             .order('horario_inicio', { ascending: true });
 
         if (error) throw error;
 
-        // Chame suas funções de renderização aqui
-        if (typeof renderizarAgendamentos === 'function') {
-            renderizarAgendamentos(agendamentos);
+        console.log("Agendamentos encontrados:", agendamentos);
+
+        if (agendamentos) {
             atualizarContadorAgendamentos(agendamentos.length);
+            renderizarAgendamentos(agendamentos);
         }
     } catch (error) {
-        console.error("Erro na busca de agendamentos:", error);
+        console.error("Erro ao buscar agendamentos:", error);
     }
 }
