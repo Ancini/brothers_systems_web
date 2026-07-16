@@ -102,17 +102,18 @@ function renderizarAgendamentos(agendamentos) {
         const card = document.createElement("div");
         card.className = "card agendamentos_por_ordem";
         
-        card.innerHTML = `
-            <div style="display: flex; flex-direction: column; justify-content: start;">
-                <span class="titulo1">Cliente</span>
-                <span class="titulo2" style="font-size: 24px; font-weight: bold;">${ag.nome_cliente}</span>
-                <span class="titulo1" style="margin-top: 5px;">Serviço</span>
-                <span class="titulo2" style="font-size: 24px; font-weight: bold;">${ag.nome_servico}</span>
-            </div>
-            <div style="position: absolute; right: 30px; top: 50%; transform: translateY(-50%); font-size: 45px; font-family: Georgia, serif;">
-                ${ag.horario_inicio ? ag.horario_inicio.substring(0, 5) : '--:--'}
-            </div>
-        `;
+        // Dentro da função renderizarAgendamentos, no forEach:
+card.innerHTML = `
+    <div style="display: flex; flex-direction: column; align-items: flex-start; text-align: left;">
+        <span class="titulo1">Cliente</span>
+        <span class="titulo2" style="font-size: 22px; font-weight: bold;">${ag.nome_cliente}</span>
+        <span class="titulo1" style="margin-top: 5px;">Serviço</span>
+        <span class="titulo2" style="font-size: 22px; font-weight: bold;">${ag.nome_servico}</span>
+    </div>
+    <div style="position: absolute; right: 30px; top: 50%; transform: translateY(-50%); font-size: 45px; font-family: Georgia, serif;">
+        ${ag.horario_inicio ? ag.horario_inicio.substring(0, 5) : '--:--'}
+    </div>
+`;
         container.appendChild(card);
     });
 }

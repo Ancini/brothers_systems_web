@@ -164,18 +164,20 @@ a {
     
     
 }
+
 .agendamentos_por_ordem {
     border-radius: 10px;
     background-color: #1e90ff;
-    width: 100%; /* Isso faz ele ocupar a linha toda, mas vamos limitar abaixo */
-    max-width: 800px; /* Adicione isso para limitar o tamanho máximo */
-    margin: 10px auto; /* Isso centraliza o card na tela */
-    height: 120px; /* Ajuste a altura conforme necessário */
-    padding: 15px 20px;
-    position: relative; /* Essencial para o horário ficar no canto */
+    width: 95%;          /* Ocupa quase toda a largura */
+    max-width: 1200px;   /* Aumente este valor para ficar mais largo */
+    margin: 10px auto;
+    height: 120px;
+    padding: 15px 30px;  /* Aumenta o espaço lateral interno */
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; /* Alinha verticalmente */
+    align-items: flex-start; /* 🔥 Isso JOGA O TEXTO PARA A ESQUERDA */
 }
 
 footer{
