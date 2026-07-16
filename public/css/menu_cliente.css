@@ -298,7 +298,7 @@ body {
     display: flex;
     justify-content: space-between; /* Empurra o conteúdo para as extremidades */
     width: 97%;
-    max-width: 100%;
+    max-width: 97%;
     align-items: center;            /* Alinha tudo verticalmente no centro */
     background-color: rgb(228, 34, 34); /* Cor vermelha do seu print */
     padding: 15px 20px;
