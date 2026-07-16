@@ -19,18 +19,23 @@ async function inicializarIdentidadeBarbeiro() {
     
     if (!user) return;
 
-    // Busca usando a nova coluna que criamos, que não tem conflito de tipo
+    // Removemos o .single() para evitar o erro 406
+    // e adicionamos um limite de 1 para garantir que pegamos apenas um
     const { data: vinculo, error } = await supabaseClient
         .from('prestador')
         .select('id_prestador')
-        .eq('uuid_vinculo', user.id) // Agora aponta para a coluna de texto
-        .single();
+        .eq('uuid_vinculo', user.id) 
+        .limit(1); 
 
     if (error) {
         console.error("Erro ao buscar vínculo:", error);
-    } else if (vinculo) {
-        idBarbeiroLogado = vinculo.id_prestador;
+    } else if (vinculo && vinculo.length > 0) {
+        // Pegamos o primeiro item da lista retornada
+        idBarbeiroLogado = vinculo[0].id_prestador;
+        console.log("Barbeiro identificado com ID:", idBarbeiroLogado);
         buscarAgendamentosDaAPI();
+    } else {
+        console.warn("Nenhum prestador vinculado a este usuário.");
     }
 }
 
