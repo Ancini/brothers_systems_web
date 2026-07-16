@@ -295,20 +295,18 @@ body {
 }
 
 .barbeiro-acesso-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: none; 
     background-color: rgb(228, 34, 34);
-    padding: 15px 20px;
     border-radius: 15px;
-    cursor: pointer;
-    transition: transform 0.2s;
-    color: white;
+    padding: 15px 20px;
+    align-items: center;
+    justify-content: space-between;
     
-    /* Ajuste para eliminar o espaçamento extra */
-    width: calc(100% - 30px); 
-    max-width: 570px;
-    margin: 0 auto 15px auto; /* Muda a margem: 0 em cima, 15px só embaixo */
+    /* REMOVA o margin-bottom: 15px e use esta linha única: */
+    margin: 0 15px 15px 15px; 
+    
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .barbeiro-acesso-card:hover {
