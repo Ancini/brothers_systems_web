@@ -9,17 +9,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 1. Identifica quem é o barbeiro primeiro
     const sucesso = await inicializarIdentidadeBarbeiro();
     
-    
     // 2. Só inicializa a interface se a identidade for confirmada
     if (sucesso) {
         inicializarLinhaDoTempo();
     } else {
         console.error("Não foi possível identificar o barbeiro. Verifique o login ou o vínculo no banco.");
-        
     }
 });
 
-// FUNÇÃO DA PONTE
 // FUNÇÃO DA PONTE
 async function inicializarIdentidadeBarbeiro() {
     const { data: { user } } = await supabaseClient.auth.getUser();
@@ -29,7 +26,6 @@ async function inicializarIdentidadeBarbeiro() {
         return false;
     }
 
-    // AGORA O LOG VAI FUNCIONAR:
     console.log("Tentando buscar vínculo com este UUID do usuário logado:", user.id);
 
     const { data: vinculo, error } = await supabaseClient
@@ -62,7 +58,6 @@ function inicializarLinhaDoTempo() {
         const dataRef = new Date();
         dataRef.setDate(dataRef.getDate() + i);
 
-        // Formatação simples para o banco e para exibição
         const dataFormatadaBanco = dataRef.toISOString().split('T')[0];
         
         const cardDia = document.createElement("div");
@@ -85,7 +80,6 @@ function inicializarLinhaDoTempo() {
         containerDias.appendChild(cardDia);
     }
 
-    // Carrega o dia de hoje ao iniciar
     buscarAgendamentosDaAPI(new Date().toISOString().split('T')[0]);
 }
 
@@ -96,11 +90,7 @@ async function buscarAgendamentosDaAPI(dataFiltro) {
         return;
     }
 
-    // Criamos o intervalo para garantir que pegamos o dia inteiro (de 00:00 até 23:59:59)
-    // Isso evita problemas se a coluna tiver horas escondidas
     const dataInicio = `${dataFiltro}T00:00:00`;
-    
-    // Calcula o dia seguinte para o limite do filtro
     const date = new Date(dataFiltro);
     date.setDate(date.getDate() + 1);
     const dataFim = date.toISOString().split('T')[0] + 'T00:00:00';
@@ -112,8 +102,8 @@ async function buscarAgendamentosDaAPI(dataFiltro) {
             .from('vw_agenda_do_barbeiro')
             .select('*')
             .eq('id_prestador', idBarbeiroLogado)
-            .gte('data_agendamento', dataInicio) // Filtra >= início do dia
-            .lt('data_agendamento', dataFim)     // Filtra < início do próximo dia
+            .gte('data_agendamento', dataInicio)
+            .lt('data_agendamento', dataFim)
             .order('horario_inicio', { ascending: true });
 
         if (error) throw error;
@@ -121,8 +111,13 @@ async function buscarAgendamentosDaAPI(dataFiltro) {
         console.log("Agendamentos encontrados:", agendamentos);
 
         if (agendamentos) {
-            atualizarContadorAgendamentos(agendamentos.length);
-            renderizarAgendamentos(agendamentos);
+            // Proteção contra erro de função não definida
+            if (typeof atualizarContadorAgendamentos === 'function') {
+                atualizarContadorAgendamentos(agendamentos.length);
+            }
+            if (typeof renderizarAgendamentos === 'function') {
+                renderizarAgendamentos(agendamentos);
+            }
         }
     } catch (error) {
         console.error("Erro ao buscar agendamentos:", error);
