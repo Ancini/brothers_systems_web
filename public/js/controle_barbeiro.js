@@ -15,31 +15,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // FUNÇÃO DA PONTE: Converte o UUID do Auth para o ID numérico da tabela 'cadastro_prestador'
 async function inicializarIdentidadeBarbeiro() {
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+    const { data: { user } } = await supabaseClient.auth.getUser();
     
-    if (authError || !user) {
-        console.error("Erro de autenticação:", authError);
-        return;
-    }
+    if (!user) return;
 
-    // Usando .eq com o ID do usuário. 
-    // Certifique-se de que a coluna 'id_cadastro_prestador' aceita comparação com UUID.
+    // Busca usando a nova coluna que criamos, que não tem conflito de tipo
     const { data: vinculo, error } = await supabaseClient
-        .from('prestador') 
+        .from('prestador')
         .select('id_prestador')
-        .eq('id_cadastro_prestador', user.id) // user.id é um UUID padrão do Supabase
+        .eq('uuid_vinculo', user.id) // Agora aponta para a coluna de texto
         .single();
 
     if (error) {
-        console.error("Erro detalhado do banco:", error); // Isso vai nos mostrar o motivo exato do 400
-        return;
-    }
-
-    if (vinculo) {
+        console.error("Erro ao buscar vínculo:", error);
+    } else if (vinculo) {
         idBarbeiroLogado = vinculo.id_prestador;
-        console.log("Barbeiro identificado com ID:", idBarbeiroLogado);
-        // Agora que identificamos, podemos carregar a agenda
-        buscarAgendamentosDaAPI(); 
+        buscarAgendamentosDaAPI();
     }
 }
 
