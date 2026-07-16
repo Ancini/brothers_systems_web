@@ -6,10 +6,7 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let idBarbeiroLogado = null; 
 
 document.addEventListener("DOMContentLoaded", async () => {
-    // 1. Identifica quem é o barbeiro primeiro
     const sucesso = await inicializarIdentidadeBarbeiro();
-    
-    // 2. Só inicializa a interface se a identidade for confirmada
     if (sucesso) {
         inicializarLinhaDoTempo();
     } else {
@@ -20,13 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // FUNÇÃO DA PONTE
 async function inicializarIdentidadeBarbeiro() {
     const { data: { user } } = await supabaseClient.auth.getUser();
-    
-    if (!user) {
-        console.warn("Usuário não está logado.");
-        return false;
-    }
-
-    console.log("Tentando buscar vínculo com este UUID do usuário logado:", user.id);
+    if (!user) return false;
 
     const { data: vinculo, error } = await supabaseClient
         .from('prestador')
@@ -34,19 +25,10 @@ async function inicializarIdentidadeBarbeiro() {
         .eq('uuid_vinculo', user.id) 
         .limit(1); 
 
-    if (error) {
-        console.error("Erro na busca de vínculo:", error);
-        return false;
-    } 
+    if (error || !vinculo || vinculo.length === 0) return false;
     
-    if (vinculo && vinculo.length > 0) {
-        idBarbeiroLogado = vinculo[0].id_prestador;
-        console.log("Barbeiro encontrado com sucesso! ID no banco:", idBarbeiroLogado);
-        return true;
-    } else {
-        console.warn("Nenhum prestador vinculado a este usuário.");
-        return false;
-    }
+    idBarbeiroLogado = vinculo[0].id_prestador;
+    return true;
 }
 
 // 2. GERA OS 4 DIAS DINAMICAMENTE
@@ -57,13 +39,10 @@ function inicializarLinhaDoTempo() {
     for (let i = 0; i < 4; i++) {
         const dataRef = new Date();
         dataRef.setDate(dataRef.getDate() + i);
-
         const dataFormatadaBanco = dataRef.toISOString().split('T')[0];
         
         const cardDia = document.createElement("div");
         cardDia.className = `card agendamento ${i === 0 ? 'ativo' : ''}`;
-        cardDia.dataset.data = dataFormatadaBanco;
-
         cardDia.innerHTML = `
             <div class="texto-dia">
                 <span class="titulo1">${dataRef.getDate()} DE ${["JAN","FEV","MAR","ABR","MAI","JUN","JUL","AGO","SET","OUT","NOV","DEZ"][dataRef.getMonth()]}</span>
@@ -76,19 +55,14 @@ function inicializarLinhaDoTempo() {
             cardDia.classList.add("ativo");
             buscarAgendamentosDaAPI(dataFormatadaBanco);
         });
-
         containerDias.appendChild(cardDia);
     }
-
     buscarAgendamentosDaAPI(new Date().toISOString().split('T')[0]);
 }
 
-// 3. BUSCA OS AGENDAMENTOS NA VIEW
+// 3. BUSCA E RENDERIZAÇÃO
 async function buscarAgendamentosDaAPI(dataFiltro) {
-    if (!idBarbeiroLogado) {
-        console.warn("Ainda carregando identidade do barbeiro...");
-        return;
-    }
+    if (!idBarbeiroLogado) return;
 
     const dataInicio = `${dataFiltro}T00:00:00`;
     const date = new Date(dataFiltro);
@@ -96,8 +70,6 @@ async function buscarAgendamentosDaAPI(dataFiltro) {
     const dataFim = date.toISOString().split('T')[0] + 'T00:00:00';
 
     try {
-        console.log(`Buscando: Prestador ${idBarbeiroLogado} entre ${dataInicio} e ${dataFim}`);
-
         const { data: agendamentos, error } = await supabaseClient
             .from('vw_agenda_do_barbeiro')
             .select('*')
@@ -107,19 +79,37 @@ async function buscarAgendamentosDaAPI(dataFiltro) {
             .order('horario_inicio', { ascending: true });
 
         if (error) throw error;
-
-        console.log("Agendamentos encontrados:", agendamentos);
-
-        if (agendamentos) {
-            // Proteção contra erro de função não definida
-            if (typeof atualizarContadorAgendamentos === 'function') {
-                atualizarContadorAgendamentos(agendamentos.length);
-            }
-            if (typeof renderizarAgendamentos === 'function') {
-                renderizarAgendamentos(agendamentos);
-            }
-        }
+        
+        atualizarContadorAgendamentos(agendamentos ? agendamentos.length : 0);
+        renderizarAgendamentos(agendamentos || []);
     } catch (error) {
         console.error("Erro ao buscar agendamentos:", error);
     }
+}
+
+function atualizarContadorAgendamentos(total) {
+    // Alvo: O span titulo2 dentro do card total_agendamentos
+    const elContador = document.querySelector(".total_agendamentos .titulo2");
+    if (elContador) elContador.innerText = total;
+}
+
+function renderizarAgendamentos(agendamentos) {
+    const container = document.getElementById("container-lista-agendamentos");
+    if (!container) return;
+
+    container.innerHTML = "";
+    agendamentos.forEach(ag => {
+        const card = document.createElement("div");
+        card.className = "card agendamentos_por_ordem"; // Usando a classe que já tem estilo no CSS
+        card.innerHTML = `
+            <div class="texto-agendamento">
+                <span class="titulo1">Cliente</span>
+                <span class="titulo2">${ag.nome_cliente}</span>
+                <span class="titulo1" style="margin-top: 10px;">Serviço</span>
+                <span class="titulo2">${ag.nome_servico}</span>
+            </div>
+            <span class="titulo5">${ag.horario_inicio ? ag.horario_inicio.substring(0, 5) : '--:--'}</span>
+        `;
+        container.appendChild(card);
+    });
 }

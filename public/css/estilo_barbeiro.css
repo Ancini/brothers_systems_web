@@ -109,14 +109,16 @@
     font-weight: bold;
     font-size:20
 }
+
+/* Ajuste esta parte no seu arquivo CSS */
 .titulo5 {
     font-weight: bold;
     font-size: 40px;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    margin-left: auto;       
-    margin-top: -100px;
-    align-items: center;
-
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 a {
