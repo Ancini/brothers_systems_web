@@ -204,7 +204,7 @@ body {
 /* Busca */
 .busca-card {
     margin: 0 15px 20px 15px;
-    background-color: #1a1a1a;
+    background-color: rgba(38, 152, 246, 1);
     border-radius: 15px;
     padding: 16px 18px;
     display: flex;
