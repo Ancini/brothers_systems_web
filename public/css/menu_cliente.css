@@ -154,6 +154,10 @@ body {
     cursor: pointer;
 }
 
+.calendario-card:hover{
+    background-color: blue;
+}
+
 .calendario-link:hover {
     text-decoration: underline;
     background-color: black;
