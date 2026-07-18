@@ -136,8 +136,8 @@ body {
 }
 
 .calendario-icon {
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
     filter: brightness(0) invert(1);
 }
 
@@ -179,8 +179,8 @@ body {
 }
 
 .ranking-icon {
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
     filter: brightness(0) invert(1);
 }
 
