@@ -156,6 +156,7 @@ body {
 
 .calendario-link:hover {
     text-decoration: underline;
+    background-color: black;
 }
 
 /* Meus agendamentos */
