@@ -204,7 +204,7 @@ body {
 }
 
 .ranking-card:hover {
-    background-color:  rgb(191, 197, 28);
+    background-color:  rgba(148, 150, 13, 1);
     cursor: pointer;
 }
 
