@@ -197,7 +197,7 @@ body {
     cursor: pointer;
 }
 
-.ranking-link:hover {
+.ranking:hover {
     background-color: black;
 }
 
