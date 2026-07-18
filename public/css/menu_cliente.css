@@ -203,8 +203,9 @@ body {
     cursor: pointer;
 }
 
-.ranking:hover {
-    background-color: black;
+.ranking-card:hover {
+    background-color: rgba(201, 203, 72, 1);
+    cursor: pointer;
 }
 
 /* Busca */
