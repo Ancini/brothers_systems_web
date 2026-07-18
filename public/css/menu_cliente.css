@@ -155,7 +155,8 @@ body {
 }
 
 .calendario-card:hover{
-    background-color: blue;
+    background-color: rgb(168, 170, 46);
+    cursor:pointer;
 }
 
 .calendario-link:hover {
