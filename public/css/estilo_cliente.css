@@ -1,20 +1,19 @@
 /* 1. RESET E BASE */
 * {
     font-family: 'Times New Roman', Times, serif;
-    color: white;
-    font-size: 16px; /* Reduzi de 20px para 16px (mais padrão para mobile) */
+    color: #333; /* Alterado de white para cinza escuro para melhor leitura no fundo claro */
+    font-size: 16px;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
 }
 
-body { background-color: #f4f4f4; } /* Adicionei uma cor de fundo para contraste */
+body { background-color: #f4f4f4; }
 
 /* 2. GRID SUPERIOR */
 .borda_principal {
     display: grid;
-    
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 10px;
     padding: 10px;
@@ -25,84 +24,61 @@ body { background-color: #f4f4f4; } /* Adicionei uma cor de fundo para contraste
     border-radius: 12px;
     padding: 10px;
     display: flex;
-    flex-direction: column; /* Coloca o ícone em cima e texto embaixo no mobile */
+    flex-direction: column;
     align-items: center;
     text-align: center;
     gap: 5px;
     transition: transform 0.2s;
 }
 
-.icone { width: 35px; } /* Ícones menores no mobile */
+.card * { color: white; } /* Mantém o texto dentro do card azul como branco */
 
-/* 3. RESPONSIVIDADE (O PULO DO GATO) */
+.icone { width: 35px; }
+
+/* 3. RESPONSIVIDADE */
 @media (max-width: 480px) {
-    .titulo4, .titulo5 { font-size: 24px !important; } /* Títulos menores */
-    
-    .borda_principal {
-        gap: 8px;
-    }
-    
+    .titulo4, .titulo5 { font-size: 24px !important; }
+    .borda_principal { gap: 8px; }
     .card { padding: 8px; }
-    
-    .desenho_barbeiro {
-        width: 100px; /* Reduzindo a imagem principal */
-        height: 100px;
-    }
 }
 
-/* 4. AJUSTES DE ELEMENTOS */
-.total_agendamentos { background: rgb(228, 34, 34); }
-.ranking { background: rgba(148, 150, 13, 1); }
-.pontuacao { background: rgba(211, 214, 26, 1); }
-
-/* Ajuste dos inputs e selects */
-select, .selecionar_barbearia {
-    width: 95% !important; /* Melhor aproveitamento da tela */
-    margin: 10px auto;
-    height: 45px;
+/* 4. ESTABELECIMENTOS (O FOCO DO SEU PROBLEMA) */
+.estabelecimentos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 10px;
 }
 
-.barbeiros {
-    width: 95%;
-    height: auto; /* Deixa flexível */
-    display: flex;
-    margin: 10px auto;
-    align-items: center;
-    justify-content: center;
-}
-
-.texto_barbeiros {
-    flex-direction: column;
-    display: flex;
-    text-align: center;
-}
-
-/* Ajuste do container da imagem */
-.estabelecimento-logo {
-    width: 100%;
-    height: 120px; /* Defina a altura que você deseja para a imagem */
-    overflow: hidden;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-}
-
-/* Ajuste da imagem para esticar sem distorcer */
-.estabelecimento-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* ESSENCIAL: preenche todo o espaço cortando o excesso */
-    object-position: center;
-}
-
-/* Ajuste do card do estabelecimento para não ter aquele branco sobrando */
 .estabelecimento-item {
     background: white;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
-    padding: 0; /* Remove o padding que causava o branco ao redor */
+    padding: 0 !important;
+    overflow: hidden; /* Isso é o que corta a imagem para arredondar os cantos */
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.estabelecimento-item:hover {
+    transform: translateY(-3px);
+}
+
+.estabelecimento-logo {
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+    /* Removemos o border-radius aqui, o pai (.estabelecimento-item) já faz isso */
+}
+
+.estabelecimento-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz a imagem ocupar todo o espaço */
+    object-position: center;
+    display: block;
 }
 
 .estabelecimento-nome {
@@ -111,4 +87,23 @@ select, .selecionar_barbearia {
     font-weight: bold;
     text-align: center;
     font-size: 14px;
+}
+
+/* 5. DEMAIS ELEMENTOS */
+.total_agendamentos { background: rgb(228, 34, 34); }
+.ranking { background: rgba(148, 150, 13, 1); }
+.pontuacao { background: rgba(211, 214, 26, 1); }
+
+select, .selecionar_barbearia {
+    width: 95% !important;
+    margin: 10px auto;
+    height: 45px;
+}
+
+.barbeiros {
+    width: 95%;
+    display: flex;
+    margin: 10px auto;
+    align-items: center;
+    justify-content: center;
 }
