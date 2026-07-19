@@ -76,3 +76,39 @@ select, .selecionar_barbearia {
     display: flex;
     text-align: center;
 }
+
+/* Ajuste do container da imagem */
+.estabelecimento-logo {
+    width: 100%;
+    height: 120px; /* Defina a altura que você deseja para a imagem */
+    overflow: hidden;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+/* Ajuste da imagem para esticar sem distorcer */
+.estabelecimento-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ESSENCIAL: preenche todo o espaço cortando o excesso */
+    object-position: center;
+}
+
+/* Ajuste do card do estabelecimento para não ter aquele branco sobrando */
+.estabelecimento-item {
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    padding: 0; /* Remove o padding que causava o branco ao redor */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+.estabelecimento-nome {
+    padding: 10px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    font-size: 14px;
+}

@@ -33,24 +33,18 @@ function renderizar(lista, containerId) {
     }
 
     lista.forEach(est => {
-        const imagem = est.imagem_estab;
-        
-        // 🔥 TRAVA DE SEGURANÇA: 
-        // Se no banco estiver 'estabelecimento' (certo) ou 'estabelicimento' (com i), ele pega o que tiver!
-        const nome = est.nome_estabelecimento || est.nome_estabelicimento; 
+    const imagem = est.imagem_estab;
+    const nome = est.nome_estabelecimento || est.nome_estabelicimento; 
 
-        container.innerHTML += `
-            <div class="estabelecimento-item">
-                <div class="estabelecimento-logo">
-                    <img src="${imagem}" alt="${nome}">
-                </div>
-                <span class="estabelecimento-nome">
-                    ${nome}
-                </span>
+    container.innerHTML += `
+        <div class="estabelecimento-item">
+            <div class="estabelecimento-logo">
+                <img src="${imagem}" alt="${nome}">
             </div>
-        `;
-    });
-}
+            <div class="estabelecimento-nome">${nome}</div>
+        </div>
+    `;
+});}
 
 // Dispara a busca automaticamente
 inicializarEstabelecimentos();
