@@ -1,7 +1,7 @@
 /* 1. RESET E BASE */
 * {
     font-family: 'Times New Roman', Times, serif;
-    color: #333; /* Alterado de white para cinza escuro para melhor leitura no fundo claro */
+    color: #333;
     font-size: 16px;
     margin: 0;
     padding: 0;
@@ -31,7 +31,7 @@ body { background-color: #f4f4f4; }
     transition: transform 0.2s;
 }
 
-.card * { color: white; } /* Mantém o texto dentro do card azul como branco */
+.card * { color: white; }
 
 .icone { width: 35px; }
 
@@ -42,7 +42,7 @@ body { background-color: #f4f4f4; }
     .card { padding: 8px; }
 }
 
-/* 4. ESTABELECIMENTOS (O FOCO DO SEU PROBLEMA) */
+/* 4. ESTABELECIMENTOS - AJUSTES FORÇADOS */
 .estabelecimentos-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -50,22 +50,14 @@ body { background-color: #f4f4f4; }
     padding: 10px;
 }
 
-/* 1. Mantenha o card com o arredondado que você gosta */
 .estabelecimento-item {
     background: white;
-    border-radius: 15px; /* Arredondado do card */
+    border-radius: 15px !important;
     padding: 0 !important;
-    overflow: hidden;    /* Isso faz com que a imagem quadrada "se molde" aos cantos arredondados */
+    overflow: hidden !important;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-/* 2. O SEGREDO: remova o arredondamento da imagem */
-.estabelecimento-logo img {
-    width: 100%;
-    height: 120px;       /* Ou a altura que você definiu */
-    object-fit: cover;
-    border-radius: 0;    /* MUDANÇA: Tire o border-radius daqui! */
-    display: block;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
 .estabelecimento-item:hover {
@@ -73,12 +65,22 @@ body { background-color: #f4f4f4; }
 }
 
 .estabelecimento-logo {
-    width: 100%;
-    height: 120px;
-    overflow: hidden;
-    /* Removemos o border-radius aqui, o pai (.estabelecimento-item) já faz isso */
+    width: 100% !important;
+    height: 140px !important; /* Altura fixa para manter o padrão */
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #eee; /* Cor de fundo caso a imagem carregue devagar */
 }
 
+.estabelecimento-logo img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; /* Força o preenchimento total */
+    object-position: center !important;
+    border-radius: 0 !important; /* Garante que não fique circular */
+    display: block !important;
+}
 
 .estabelecimento-nome {
     padding: 10px;
