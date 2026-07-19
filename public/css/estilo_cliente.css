@@ -1,136 +1,77 @@
+/* 1. RESET E BASE */
 * {
     font-family: 'Times New Roman', Times, serif;
     color: white;
-    font-size: 20px;
+    font-size: 16px; /* Reduzi de 20px para 16px (mais padrão para mobile) */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
-    cursor:pointer;
-    
 }
 
-/* GRID SUPERIOR */
+body { background-color: #f4f4f4; } /* Adicionei uma cor de fundo para contraste */
+
+/* 2. GRID SUPERIOR */
 .borda_principal {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 10px;
     padding: 10px;
 }
 
 .card {
     background: rgba(0, 74, 173, 1);
-    border-radius: 15px;
-    padding: 12px;
+    border-radius: 12px;
+    padding: 10px;
     display: flex;
+    flex-direction: column; /* Coloca o ícone em cima e texto embaixo no mobile */
     align-items: center;
-    gap: 12px;
-
-        transition: 
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        background-color 0.2s ease;
-}
-.card:hover {
-    transform: translateY(-6px);   /* 🔥 sobe, vem pra frente */
-    background-color: rgb(17, 103, 230); /* muda a cor */
-    box-shadow: 0 10px 25px rgba(183, 33, 33, 0.35); /* ganha profundidade */
+    text-align: center;
+    gap: 5px;
+    transition: transform 0.2s;
 }
 
-/* quando clicar */
-.card:active {
-    transform: translateY(-2px) scale(0.98); /* leve compressão */
-    background-color: rgb(11, 80, 185);
+.icone { width: 35px; } /* Ícones menores no mobile */
+
+/* 3. RESPONSIVIDADE (O PULO DO GATO) */
+@media (max-width: 480px) {
+    .titulo4, .titulo5 { font-size: 24px !important; } /* Títulos menores */
+    
+    .borda_principal {
+        gap: 8px;
+    }
+    
+    .card { padding: 8px; }
+    
+    .desenho_barbeiro {
+        width: 100px; /* Reduzindo a imagem principal */
+        height: 100px;
+    }
 }
 
-
+/* 4. AJUSTES DE ELEMENTOS */
 .total_agendamentos { background: rgb(228, 34, 34); }
-.ranking { background: rgba(148, 150, 13, 1); text-decoration: none; }
-.pontuacao { background: rgba(211, 214, 26, .9); }
+.ranking { background: rgba(148, 150, 13, 1); }
+.pontuacao { background: rgba(211, 214, 26, 1); }
 
-.icone {
-    width: 48px;
+/* Ajuste dos inputs e selects */
+select, .selecionar_barbearia {
+    width: 95% !important; /* Melhor aproveitamento da tela */
+    margin: 10px auto;
+    height: 45px;
 }
 
-.selecionar_barbearia{
-    background-color:  rgb(228, 34, 34);
-    width: 90%;
+.barbeiros {
+    width: 95%;
+    height: auto; /* Deixa flexível */
     display: flex;
-    margin: 0 auto;
-    
-}
-
-.barbeiros{
-    width: 90%;
-    height: 200px;
-    display: flex;
-    margin: 0 auto;
-    
-}
-
-
-
-/* ---------------------------------------
-        ÁREA DE DATAS — IGUAL AO FIGMA
-----------------------------------------*/
-
-
-select {
-    background-color: rgba(0, 74, 173, 1);
-    border-radius: 10px;
-    width: 80%;
-    height: 50px;
-    border: none;
-    text-align: center;
-    color: white;
-}
-
-.selecionar_barbearia,
-.selecionar_barbeiro,
-.selecionar_servico,
-.selecionar_horario {
-    text-align: center;
-    
-}
-
-/* BOTÃO */
-button {
-    background-color: none;
-    height: 50px;
-    border: none;
-    margin: auto;
-   
-}
-
-footer {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.desenho_barbeiro{
-width: 150px;
-height: 150px;
-}
-
-.titulo4{
-    font-size: 35px;
-
-}
-.titulo5{
-        font-size: 35px;
-}
-
-.texto_barbeiros{
-    flex-direction:column ;
-    display: flex;
-   
-}
-
-
-.voltar{
-    justify-content: center;
+    margin: 10px auto;
     align-items: center;
-    width: 90%;
-    margin: 0 auto;
+    justify-content: center;
+}
 
+.texto_barbeiros {
+    flex-direction: column;
+    display: flex;
+    text-align: center;
 }
