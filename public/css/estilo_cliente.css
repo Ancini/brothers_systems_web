@@ -50,16 +50,22 @@ body { background-color: #f4f4f4; }
     padding: 10px;
 }
 
+/* 1. Mantenha o card com o arredondado que você gosta */
 .estabelecimento-item {
     background: white;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
+    border-radius: 15px; /* Arredondado do card */
     padding: 0 !important;
-    overflow: hidden; /* Isso é o que corta a imagem para arredondar os cantos */
+    overflow: hidden;    /* Isso faz com que a imagem quadrada "se molde" aos cantos arredondados */
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: transform 0.2s;
+}
+
+/* 2. O SEGREDO: remova o arredondamento da imagem */
+.estabelecimento-logo img {
+    width: 100%;
+    height: 120px;       /* Ou a altura que você definiu */
+    object-fit: cover;
+    border-radius: 0;    /* MUDANÇA: Tire o border-radius daqui! */
+    display: block;
 }
 
 .estabelecimento-item:hover {
@@ -73,13 +79,6 @@ body { background-color: #f4f4f4; }
     /* Removemos o border-radius aqui, o pai (.estabelecimento-item) já faz isso */
 }
 
-.estabelecimento-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Faz a imagem ocupar todo o espaço */
-    object-position: center;
-    display: block;
-}
 
 .estabelecimento-nome {
     padding: 10px;
