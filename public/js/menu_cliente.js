@@ -3,20 +3,19 @@ import { pegarSessao } from "./session.js";
 
 async function carregarPontuacaoUsuario() {
     try {
-        // Pega o objeto do usuário logado que salvamos no localStorage
         const usuario = pegarSessao();
 
-        if (!usuario || !usuario.id_tabela) {
-            console.warn("Nenhum usuário logado ou ID não encontrado.");
+        if (!usuario || !usuario.id_usuario) {
+            console.warn("Nenhum usuário logado encontrado na sessão.");
             return;
         }
 
-        const idUsuarioLogado = usuario.id_tabela; // O ID numérico da sua tabela 'usuario'
+        const idUsuarioLogado = usuario.id_usuario; 
 
         const { data, error } = await supabaseClient
-            .from('view_pontuacao_usuario') // Substitua pelo nome exato da View
+            .from('vw_pontuacao_usuario') // Substitua pelo nome exato da View no Supabase
             .select('pontuacao_total')
-            .eq('id_usuario', idUsuarioLogado) // Coluna da sua view que filtra o usuário
+            .eq('id_usuario', idUsuarioLogado) // Certifique-se de que a coluna na View que compara o usuário se chama 'id_usuario'
             .single();
 
         if (error) throw error;
