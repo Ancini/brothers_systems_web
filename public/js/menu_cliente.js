@@ -15,7 +15,7 @@ async function carregarPontuacaoUsuario() {
         const { data, error } = await supabaseClient
             .from('vw_pontuacao_usuario') // Substitua pelo nome exato da View no Supabase
             .select('pontuacao_total')
-            .eq('id_usuario', idUsuarioLogado) // Certifique-se de que a coluna na View que compara o usuário se chama 'id_usuario'
+            .eq('id_usuario', usuario.id_usuario) // Certifique-se de que a coluna na View que compara o usuário se chama 'id_usuario'
             .single();
 
         if (error) throw error;

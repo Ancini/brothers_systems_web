@@ -24,7 +24,6 @@ export function logout() {
    ========================================== */
 export async function efetuarLogin(email, senha) {
     try {
-        // 1. Faz o login no sistema de autenticação do Supabase
         const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
             email: email,
             password: senha
@@ -32,25 +31,24 @@ export async function efetuarLogin(email, senha) {
 
         if (authError) throw authError;
 
-        // 2. Busca a sua tabela customizada 'usuario' para trazer o campo 'barbeiro'
+        // 1. Puxamos o 'id' (numérico) e o 'barbeiro' da sua tabela 'usuario'
         const { data: dadosUsuario, error: dbError } = await supabaseClient
             .from('usuario') 
-            .select('barbeiro')
-            .eq('id', authData.user.id) // Vincula pelo ID gerado na autenticação
+            .select('id, barbeiro') 
+            .eq('id', authData.user.id) // Ou a coluna que vincula o auth ao seu id numérico
             .single();
 
         if (dbError) {
             console.warn("Aviso: Não foi possível buscar o perfil na tabela usuario:", dbError.message);
         }
 
-        // 3. Mescla o objeto criando as propriedades 'barbeiro' e 'id_usuario' no objeto final
+        // 2. Salvamos o ID numérico na sessão com o nome 'id_usuario'
         const usuarioCompleto = {
             ...authData.user,
-            id_usuario: authData.user.id, // Adicionado para facilitar a busca de pontuação nas views
+            id_usuario: dadosUsuario ? dadosUsuario.id : null, // Aqui fica o seu número (ex: 53)
             barbeiro: dadosUsuario ? dadosUsuario.barbeiro : false
         };
 
-        // 4. Salva no localStorage com o dado atualizado do banco!
         salvarSessao(usuarioCompleto);
 
         return { sucesso: true, usuario: usuarioCompleto };
