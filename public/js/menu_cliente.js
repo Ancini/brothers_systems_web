@@ -1,28 +1,29 @@
 import { buscarAbertos, buscarFechados } from "./abertos_fechados.js";
-import { pegarSessao } from "./session.js";
+import { pegarSessao, supabaseClient } from "./session.js"; // <-- Importamos o supabaseClient daqui
 
 async function carregarPontuacaoUsuario() {
     try {
         const usuario = pegarSessao();
 
         if (!usuario || !usuario.id_usuario) {
-            console.warn("Nenhum usuário logado encontrado na sessão.");
+            console.warn("Nenhum usuário logado ou id_usuario não encontrado na sessão.");
             return;
         }
 
         const idUsuarioLogado = usuario.id_usuario; 
 
         const { data, error } = await supabaseClient
-            .from('vw_pontuacao_usuario') // Substitua pelo nome exato da View no Supabase
+            .from('vw_pontuacao_usuario') 
             .select('pontuacao_total')
-            .eq('id_usuario', usuario.id_usuario) // Certifique-se de que a coluna na View que compara o usuário se chama 'id_usuario'
+            .eq('id_usuario', idUsuarioLogado) // Certifique-se de que a coluna na View se chama 'id_usuario'
             .single();
 
         if (error) throw error;
 
         const elementoPontuacao = document.getElementById('pontuacao-usuario');
         if (elementoPontuacao && data) {
-            elementoPontuacao.textContent = data.pontuacao_total;
+            // Exibe a pontuação total (se vier nula/undefined por algum motivo, exibe 0)
+            elementoPontuacao.textContent = data.pontuacao_total ?? 0;
         }
 
     } catch (error) {
@@ -32,7 +33,6 @@ async function carregarPontuacaoUsuario() {
 
 async function inicializarEstabelecimentos() {
     try {
-        // Busca os estabelecimentos abertos e fechados das Views
         const abertos = await buscarAbertos();
         const fechados = await buscarFechados();
 
@@ -77,7 +77,6 @@ function renderizar(lista, containerId) {
     });
 }
 
-// Dispara as funções automaticamente quando a página carregar
 document.addEventListener("DOMContentLoaded", () => {
     inicializarEstabelecimentos();
     carregarPontuacaoUsuario();

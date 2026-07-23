@@ -1,11 +1,12 @@
-const supabaseClient = supabase.createClient(
+// Adicionado o 'export' aqui na frente para poder usar em outros arquivos
+export const supabaseClient = supabase.createClient(
     "https://hnaapsbkrokrkmnzayyr.supabase.co",
     "sb_publishable_AaxUlPsbivnRIu2_iu3Epg_nzr8w-3u"
 );
 
 // Salva usuário no navegador
 export function salvarSessao(user) {
-    localStorage.setItem("usuarioLogado", JSON.stringify(user)); // Corrigido de localSatorage para localStorage
+    localStorage.setItem("usuarioLogado", JSON.stringify(user));
 }
 
 // Pega usuário logado
@@ -19,9 +20,6 @@ export function logout() {
     console.log("Usuário deslogado, sessão removida");
 }
 
-/* ==========================================
-   NOVA FUNÇÃO: LOGIN COM BUSCA DE PERFIL
-   ========================================== */
 export async function efetuarLogin(email, senha) {
     try {
         const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
@@ -31,21 +29,19 @@ export async function efetuarLogin(email, senha) {
 
         if (authError) throw authError;
 
-        // 1. Puxamos o 'id' (numérico) e o 'barbeiro' da sua tabela 'usuario'
         const { data: dadosUsuario, error: dbError } = await supabaseClient
             .from('usuario') 
             .select('id, barbeiro') 
-            .eq('id', authData.user.id) // Ou a coluna que vincula o auth ao seu id numérico
+            .eq('id', authData.user.id) 
             .single();
 
         if (dbError) {
             console.warn("Aviso: Não foi possível buscar o perfil na tabela usuario:", dbError.message);
         }
 
-        // 2. Salvamos o ID numérico na sessão com o nome 'id_usuario'
         const usuarioCompleto = {
             ...authData.user,
-            id_usuario: dadosUsuario ? dadosUsuario.id : null, // Aqui fica o seu número (ex: 53)
+            id_usuario: dadosUsuario ? dadosUsuario.id : null, 
             barbeiro: dadosUsuario ? dadosUsuario.barbeiro : false
         };
 
@@ -58,27 +54,16 @@ export async function efetuarLogin(email, senha) {
     }
 }
 
-/* ==========================================
-   VERIFICAÇÃO DE PERFIL E ROTA
-   ========================================== */
-
-/**
- * Avalia o perfil do usuário logado e retorna a tela de destino correta
- * ou define se o botão extra deve ser exibido.
- */
 export function verificarFluxoUsuario() {
   const usuario = pegarSessao();
   
   if (!usuario) {
       console.log("Nenhum usuário logado.");
-      return "login.html"; // Se não tiver sessão, manda pro login
+      return "login.html"; 
   }
 
-  // Verifica a flag booleana que veio do banco
   if (usuario.barbeiro === true || usuario.barbeiro === "true" || usuario.barbeiro === "s") {
       console.log(`O usuário é um barbeiro ativo.`);
-      
-      // Retorna um objeto indicando que ele tem acesso especial
       return {
           eBarbeiro: true,
           telaInicial: "home_cliente.html", 
@@ -86,7 +71,6 @@ export function verificarFluxoUsuario() {
       };
   }
 
-  // Usuário comum (cliente)
   return {
       eBarbeiro: false,
       telaInicial: "home_cliente.html",
