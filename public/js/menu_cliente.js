@@ -14,7 +14,7 @@ async function carregarPontuacaoUsuario() {
         const idUsuarioLogado = usuario.id_tabela; // O ID numérico da sua tabela 'usuario'
 
         const { data, error } = await supabaseClient
-            .from('nome_da_sua_view') // Substitua pelo nome exato da View
+            .from('view_pontuacao_usuario') // Substitua pelo nome exato da View
             .select('pontuacao_total')
             .eq('id_usuario', idUsuarioLogado) // Coluna da sua view que filtra o usuário
             .single();
