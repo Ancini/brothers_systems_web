@@ -1,8 +1,32 @@
 import { buscarAbertos, buscarFechados } from "./abertos_fechados.js";
 
+async function carregarPontuacaoUsuario() {
+    try {
+        // Supondo que você pegue o ID ou o nome do usuário logado (exemplo usando localStorage ou sessão)
+        // Substitua '53' ou a variável correta do seu sistema de login
+        const idUsuarioLogado = 53; // Pegue da sua sessão atual
+
+        const { data, error } = await supabase
+            .from('vw_pontuacao_usuario') 
+            .select('pontuacao_total')
+            .eq('id_usuario', idUsuarioLogado)
+            .single();
+
+        if (error) throw error;
+
+        // Atualiza o HTML com o valor vindo do banco
+        const elementoPontuacao = document.getElementById('pontuacao-usuario');
+        if (elementoPontuacao && data) {
+            elementoPontuacao.textContent = data.pontuacao_total;
+        }
+
+    } catch (error) {
+        console.error("Erro ao carregar a pontuação:", error);
+    }
+}
+
 async function inicializarEstabelecimentos() {
     try {
-        // Agora buscamos das duas funções separadas (que consultam as nossas Views no Supabase)
         const abertos = await buscarAbertos();
         const fechados = await buscarFechados();
 
@@ -13,38 +37,8 @@ async function inicializarEstabelecimentos() {
     }
 }
 
-function renderizar(lista, containerId) {
-    const container = document.getElementById(containerId);
-    
-    if (!container) {
-        console.warn(`Container com ID '${containerId}' não foi encontrado no HTML.`);
-        return;
-    }
-
-    container.innerHTML = "";
-
-    if (!lista || lista.length === 0) {
-        container.innerHTML = `
-            <p style="color: #999; font-size: 14px; grid-column: 1/-1; text-align: center; padding: 20px;">
-                Nenhum estabelecimento encontrado nesta categoria.
-            </p>
-        `;
-        return;
-    }
-
-    lista.forEach(est => {
-    const imagem = est.imagem_estab;
-    const nome = est.nome_estabelecimento || est.nome_estabelicimento; 
-
-    container.innerHTML += `
-        <div class="estabelecimento-item">
-            <div class="estabelecimento-logo">
-                <img src="${imagem}" alt="${nome}">
-            </div>
-            <div class="estabelecimento-nome">${nome}</div>
-        </div>
-    `;
-});}
-
-// Dispara a busca automaticamente
-inicializarEstabelecimentos();
+// Dispara as buscas automaticamente ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+    inicializarEstabelecimentos();
+    carregarPontuacaoUsuario();
+});
