@@ -5,23 +5,23 @@ const supabaseClient = supabase.createClient(
 
 // Salva usuário no navegador
 export function salvarSessao(user) {
-  localStorage.setItem("usuarioLogado", JSON.stringify(user));
+    localStorage.setItem("usuarioLogado", JSON.stringify(user)); // Corrigido aqui
 }
 
 // Pega usuário logado
 export function pegarSessao() {
-  return JSON.parse(localStorage.getItem("usuarioLogado"));
+    return JSON.parse(localStorage.getItem("usuarioLogado"));
 }
 
 // Remove sessão (logout)
 export function logout() {
-  localStorage.removeItem("usuarioLogado");
-  console.log("Usuário deslogado, sessão removida");
+    localStorage.removeItem("usuarioLogado");
+    console.log("Usuário deslogado, sessão removida");
 }
 
 /* ==========================================
-   NOVA FUNÇÃO: LOGIN COM BUSCA DE PERFIL
-   ========================================== */
+    NOVA FUNÇÃO: LOGIN COM BUSCA DE PERFIL
+    ========================================== */
 export async function efetuarLogin(email, senha) {
     try {
         // 1. Faz o login no sistema de autenticação do Supabase
@@ -32,20 +32,22 @@ export async function efetuarLogin(email, senha) {
 
         if (authError) throw authError;
 
-        // 2. Busca a sua tabela customizada 'usuario' para trazer o campo 'barbeiro'
+        // 2. Busca a sua tabela customizada 'usuario' para trazer o ID numérico e o campo 'barbeiro'
+        // IMPORTANTE: Certifique-se de que o .select() também puxa o 'id' (ou o campo que é a chave na sua tabela)
         const { data: dadosUsuario, error: dbError } = await supabaseClient
             .from('usuario') 
-            .select('barbeiro')
-            .eq('id', authData.user.id) // Vincula pelo ID gerado na autenticação
+            .select('id, barbeiro') // <-- Garanta que o 'id' da sua tabela customizada está sendo puxado aqui
+            .eq('id', authData.user.id) 
             .single();
 
         if (dbError) {
             console.warn("Aviso: Não foi possível buscar o perfil na tabela usuario:", dbError.message);
         }
 
-        // 3. Mescla o objeto criando a propriedade 'barbeiro' no objeto final
+        // 3. Mescla o objeto incluindo o ID da sua tabela e a propriedade 'barbeiro'
         const usuarioCompleto = {
             ...authData.user,
+            id_tabela: dadosUsuario ? dadosUsuario.id : null, // ID numérico da sua tabela customizada
             barbeiro: dadosUsuario ? dadosUsuario.barbeiro : false
         };
 
@@ -60,26 +62,18 @@ export async function efetuarLogin(email, senha) {
 }
 
 /* ==========================================
-   VERIFICAÇÃO DE PERFIL E ROTA
-   ========================================== */
-
-/**
- * Avalia o perfil do usuário logado e retorna a tela de destino correta
- * ou define se o botão extra deve ser exibido.
- */
+    VERIFICAÇÃO DE PERFIL E ROTA
+    ========================================== */
 export function verificarFluxoUsuario() {
   const usuario = pegarSessao();
   
   if (!usuario) {
       console.log("Nenhum usuário logado.");
-      return "login.html"; // Se não tiver sessão, manda pro login
+      return "login.html"; 
   }
 
-  // Verifica a flag booleana que veio do banco
   if (usuario.barbeiro === true || usuario.barbeiro === "true" || usuario.barbeiro === "s") {
       console.log(`O usuário é um barbeiro ativo.`);
-      
-      // Retorna um objeto indicando que ele tem acesso especial
       return {
           eBarbeiro: true,
           telaInicial: "home_cliente.html", 
@@ -87,7 +81,6 @@ export function verificarFluxoUsuario() {
       };
   }
 
-  // Usuário comum (cliente)
   return {
       eBarbeiro: false,
       telaInicial: "home_cliente.html",

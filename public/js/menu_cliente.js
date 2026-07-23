@@ -1,20 +1,26 @@
 import { buscarAbertos, buscarFechados } from "./abertos_fechados.js";
+import { pegarSessao } from "./session.js";
 
-// Função para buscar a pontuação do usuário logado na View do Supabase
 async function carregarPontuacaoUsuario() {
     try {
-        // Substitua pelo ID do usuário logado na sua sessão atual (ex: localStorage ou variável global)
-        const idUsuarioLogado = 53; 
+        // Pega o objeto do usuário logado que salvamos no localStorage
+        const usuario = pegarSessao();
 
-        const { data, error } = await supabase
-            .from('vw_pontuacao_usuario') // <-- Lembre-se de colocar o nome exato da sua View aqui
+        if (!usuario || !usuario.id_tabela) {
+            console.warn("Nenhum usuário logado ou ID não encontrado.");
+            return;
+        }
+
+        const idUsuarioLogado = usuario.id_tabela; // O ID numérico da sua tabela 'usuario'
+
+        const { data, error } = await supabaseClient
+            .from('nome_da_sua_view') // Substitua pelo nome exato da View
             .select('pontuacao_total')
-            .eq('id_usuario', idUsuarioLogado)
+            .eq('id_usuario', idUsuarioLogado) // Coluna da sua view que filtra o usuário
             .single();
 
         if (error) throw error;
 
-        // Atualiza o elemento no HTML com a pontuação real do banco
         const elementoPontuacao = document.getElementById('pontuacao-usuario');
         if (elementoPontuacao && data) {
             elementoPontuacao.textContent = data.pontuacao_total;
